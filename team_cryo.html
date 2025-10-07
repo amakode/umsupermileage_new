@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leadership Team | University of Michigan Supermileage</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'michigan-maize': '#FFCB0A',
+                        'michigan-blue': '#00274C',
+                        'dark-navy': '#010d1a',
+                    },
+                    fontFamily: {
+                        'sans': ['"Manrope"', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        '4xl': '2.5rem',
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #010d1a;
+            color: #f0f0f0;
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+            background-image: url('zoomed_out.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        #aurora-background { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: 1;
+            overflow: hidden; 
+        }
+
+        #main-content {
+            position: relative;
+            z-index: 2;
+            background-color: rgba(1, 13, 26, 0.6);
+        }
+
+        #navbar { top: 2.5rem; }
+        #nav-content { max-width: 700px; margin: 0 auto; position: relative; }
+        #nav-slider {
+            position: absolute; height: 75%; top: 12.5%;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 9999px; z-index: -1;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); opacity: 0;
+        }
+        
+        .glass-panel {
+            position: relative;
+            background: rgba(30, 30, 30, 0.3);
+            backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+        }
+        .glass-panel::before {
+            content: '';
+            position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+            background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        .glass-panel-light {
+            background: rgba(30, 30, 30, 0.2);
+            backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
+        }
+
+        .neon-maize-text { color: #FFCB0A; text-shadow: 0 0 4px #FFCB0A, 0 0 8px #FFCB0A; }
+        .neon-white-text { color: #F0F0F0; text-shadow: 0 0 4px #F0F0F0, 0 0 8px #F0F0F0; }
+
+        .aurora-shape { position: absolute; border-radius: 100%; filter: blur(120px); opacity: 0.5; }
+        #aurora-1 { width: 800px; height: 600px; top: -20%; left: -10%; background: rgba(0, 39, 76, 0.2); animation: move-aurora 25s infinite alternate ease-in-out; }
+        #aurora-2 { width: 900px; height: 700px; bottom: -30%; right: -20%; background: rgba(0, 80, 150, 0.2); animation: move-aurora 30s infinite alternate ease-in-out; } 
+        #aurora-3 { width: 700px; height: 550px; top: 10%; left: -15%; background: rgba(0, 39, 76, 0.2); animation: move-aurora 28s infinite alternate ease-in-out reverse; }
+        @keyframes move-aurora { from { transform: rotate(0deg) translateX(50px) rotate(0deg) scale(1); } to { transform: rotate(360deg) translateX(50px) rotate(-360deg) scale(1.2); } }
+        
+        .hero-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
+        #scroll-indicator { position: absolute; bottom: 6rem; z-index: 5; transition: opacity 0.5s; }
+        #scroll-indicator svg { filter: drop-shadow(0 0 8px #FFCB0A); }
+        #scroll-indicator.hidden { opacity: 0; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+        .animate-bounce-slow { animation: bounce 2s infinite; }
+
+        /* --- Nanotech Styles --- */
+        #nanotech-container {
+            position: relative;
+            width: 100%;
+            height: 900px; /* Canvas for the effect */
+        }
+        .nanotech-surface {
+            position: absolute;
+            inset: -20px;
+            background-color: #050505;
+            filter: url(#nanotech-filter);
+        }
+        .hotspot-trigger {
+            position: absolute;
+            width: 400px;
+            height: 220px;
+            z-index: 10;
+            /* background-color: rgba(255,0,0,0.2); */ /* Uncomment to debug hotspot areas */
+        }
+        .nanotech-card {
+            position: absolute;
+            width: 400px;
+            height: 220px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            opacity: 0;
+            clip-path: polygon(50% 48%, 52% 50%, 50% 52%, 48% 50%); /* Start as a tiny diamond */
+            transition: all 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+            z-index: 5;
+        }
+        .hotspot-trigger:hover + .nanotech-card {
+            opacity: 1;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); /* Animate to a full rectangle */
+        }
+        .nanotech-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #FFCB0A;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <svg style="position:absolute; width:0; height:0;">
+        <defs>
+            <filter id="nanotech-filter">
+                <feTurbulence type="turbulence" baseFrequency="0.7" numOctaves="1" result="turbulence" seed="0"/>
+                <feSpecularLighting surfaceScale="5" specularConstant=".75" specularExponent="20" lighting-color="#FFEE88" in="turbulence" result="specularLighting">
+                    <fePointLight x="-5000" y="-10000" z="20000"/>
+                </feSpecularLighting>
+                <feComposite in="specularLighting" in2="SourceAlpha" operator="in" result="composite2"/>
+                <feComposite in="SourceGraphic" in2="composite2" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="composite3"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <div id="aurora-background">
+        <div id="aurora-1" class="aurora-shape"></div>
+        <div id="aurora-2" class="aurora-shape"></div>
+        <div id="aurora-3" class="aurora-shape"></div>
+    </div>
+
+    <header id="navbar" class="fixed left-0 right-0 z-50">
+        <div id="nav-content" class="glass-panel glass-panel-light rounded-full p-2">
+            <div id="nav-slider"></div>
+            <nav id="nav-links" class="flex justify-around items-center text-gray-200 font-semibold">
+                <a href="index.html" class="px-5 py-2 z-10 transition-colors">Home</a>
+                <a href="about.html" class="px-5 py-2 z-10 transition-colors">About</a>
+                <a href="team_nanotech.html" class="px-5 py-2 z-10 transition-colors">Team</a>
+                <a href="sponsors.html" class="px-5 py-2 z-10 transition-colors">Sponsors</a>
+                <a href="index.html#fleet" class="px-5 py-2 z-10 transition-colors">Fleet</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="hero-section">
+            <h1 class="text-6xl md:text-8xl font-extrabold neon-white-text text-center">Team Assembly</h1>
+            <p class="mt-4 max-w-2xl mx-auto text-gray-300 text-lg md:text-xl text-center">Hover over the particle field to materialize team profiles.</p>
+            <div id="scroll-indicator"><svg class="w-10 h-10 text-white/70 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></div>
+        </section>
+
+        <section id="team" class="py-24 sm:py-32">
+            <div class="container mx-auto">
+                <div id="nanotech-container" class="glass-panel rounded-4xl">
+                    <div class="nanotech-surface"></div>
+                    
+                    <div class="hotspot-trigger" style="top: 15%; left: 10%;"></div>
+                    <div class="nanotech-card glass-panel rounded-4xl" style="top: 15%; left: 10%;">
+                        <img src="./headshots/placeholder.png" alt="Grace Drabicki">
+                        <div><h3 class="font-bold text-xl neon-maize-text">Grace Drabicki</h3><p class="text-md text-gray-200">Team Captain</p><p class="text-sm text-gray-300 mt-1">Oversees all team operations and project vision.</p></div>
+                    </div>
+
+                    <div class="hotspot-trigger" style="top: 25%; left: 55%;"></div>
+                    <div class="nanotech-card glass-panel rounded-4xl" style="top: 25%; left: 55%;">
+                        <img src="./headshots/placeholder.png" alt="Andrew Inniger">
+                        <div><h3 class="font-bold text-xl neon-maize-text">Andrew Inniger</h3><p class="text-md text-gray-200">Chief Engineer</p><p class="text-sm text-gray-300 mt-1">Leads the technical direction of the vehicle.</p></div>
+                    </div>
+                    
+                    <div class="hotspot-trigger" style="top: 55%; left: 30%;"></div>
+                    <div class="nanotech-card glass-panel rounded-4xl" style="top: 55%; left: 30%;">
+                        <img src="./headshots/placeholder.png" alt="Ben St. Henry">
+                        <div><h3 class="font-bold text-xl neon-maize-text">Ben St. Henry</h3><p class="text-md text-gray-200">Operations Director</p><p class="text-sm text-gray-300 mt-1">Manages logistics, finances, and sponsorship.</p></div>
+                    </div>
+
+                    <div class="hotspot-trigger" style="top: 70%; left: 5%;"></div>
+                    <div class="nanotech-card glass-panel rounded-4xl" style="top: 70%; left: 5%;">
+                        <img src="./headshots/placeholder.png" alt="Kritin Tandon">
+                        <div><h3 class="font-bold text-xl neon-maize-text">Kritin Tandon</h3><p class="text-md text-gray-200">Engine Lead</p><p class="text-sm text-gray-300 mt-1">Leads design and tuning of the engine.</p></div>
+                    </div>
+
+                    <div class="hotspot-trigger" style="top: 75%; left: 60%;"></div>
+                    <div class="nanotech-card glass-panel rounded-4xl" style="top: 75%; left: 60%;">
+                        <img src="./headshots/placeholder.png" alt="Aris Chalin">
+                        <div><h3 class="font-bold text-xl neon-maize-text">Aris Chalin</h3><p class="text-md text-gray-200">Electrical Lead</p><p class="text-sm text-gray-300 mt-1">Oversees all vehicle electronics.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="mt-12">
+            <div class="container mx-auto px-6 py-8"><div class="glass-panel rounded-4xl p-8 text-center text-gray-400"><p>&copy; 2025 University of Michigan Supermileage. All Rights Reserved.</p><p class="mt-1 text-sm">Ann Arbor, Michigan</p></div></div>
+        </footer>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navbar Slider Logic
+            const navLinksContainer = document.getElementById('nav-links');
+            const navSlider = document.getElementById('nav-slider');
+            const navLinks = navLinksContainer.querySelectorAll('a');
+            navLinks.forEach(link => { link.addEventListener('mouseenter', () => { navSlider.style.width = `${link.offsetWidth}px`; navSlider.style.left = `${link.offsetLeft}px`; navSlider.style.opacity = '1'; }); });
+            navLinksContainer.addEventListener('mouseleave', () => { navSlider.style.opacity = '0'; });
+
+            // Scroll Indicator
+            const scrollIndicator = document.getElementById('scroll-indicator');
+            if(scrollIndicator) { window.addEventListener('scroll', () => { scrollIndicator.style.opacity = 1 - Math.min(window.scrollY / 100, 1); }); }
+
+            // Nanotech Animation Logic
+            const turbulence = document.querySelector('#nanotech-filter feTurbulence');
+            if (turbulence) {
+                let seed = 0;
+                function animateTurbulence() {
+                    seed += 1; // Faster seed change for more shimmer
+                    turbulence.setAttribute('seed', seed);
+                    requestAnimationFrame(animateTurbulence);
+                }
+                animateTurbulence();
+            }
+        });
+    </script>
+</body>
+</html>
