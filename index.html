@@ -67,6 +67,14 @@
         #hero-logo {
             width: auto; max-width: 35%; min-width: 300px; height: auto;
             margin-top: 22vh;
+            animation: neon-flicker 1.5s infinite linear;
+        }
+
+        @keyframes neon-flicker {
+            0%, 100% { opacity: 1; } 10% { opacity: 0.95; } 12% { opacity: 1; } 14% { opacity: 0.8; } 16% { opacity: 1; }
+            28% { opacity: 1; } 30% { opacity: 0.1; } 30.5% { opacity: 1; } 32% { opacity: 0.2; } 32.5% { opacity: 1; }
+            34% { opacity: 0.9; } 35% { opacity: 1; } 50% { opacity: 1; } 50.5% { opacity: 0.1; } 51% { opacity: 1; }
+            70% { opacity: 1; } 70.2% { opacity: 0.3; } 70.4% { opacity: 1; } 70.6% { opacity: 0.4; } 70.8% { opacity: 1; }
         }
 
         #navbar { top: 2.5rem; }
@@ -95,21 +103,6 @@
             -webkit-mask-composite: xor;
             mask-composite: exclude;
         }
-        .glass-panel::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
-            transform: skewX(-25deg);
-            transition: left 0.75s ease-in-out;
-            pointer-events: none;
-        }
-        .glass-panel:hover::after {
-            left: 150%;
-        }
         .modal-content::after {
             content: none;
         }
@@ -126,10 +119,23 @@
         #aurora-1 { width: 800px; height: 600px; top: -20%; left: -10%; background: rgba(0, 39, 76, 0.2); animation: move-aurora 25s infinite alternate ease-in-out; }
         #aurora-2 { width: 900px; height: 700px; bottom: -30%; right: -20%; background: rgba(0, 80, 150, 0.2); animation: move-aurora 30s infinite alternate ease-in-out; } 
         #aurora-3 { width: 700px; height: 550px; top: 10%; left: -15%; background: rgba(0, 39, 76, 0.2); animation: move-aurora 28s infinite alternate ease-in-out reverse; }
-
         @keyframes move-aurora { from { transform: rotate(0deg) translateX(50px) rotate(0deg) scale(1); } to { transform: rotate(360deg) translateX(50px) rotate(-360deg) scale(1.2); } }
-        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; } .reveal.visible { opacity: 1; transform: translateY(0); }
-        .fleet-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 0 40px rgba(255, 255, 255, 0.1); cursor: pointer; }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; } 
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        
+        .card-container { perspective: 1000px; }
+        .holo-card {
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease-out, opacity 0.3s ease-in-out;
+        }
+        .card-clone {
+            position: fixed;
+            z-index: 101;
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .holo-card[data-modal-target]:hover { cursor: pointer; }
         
         #scroll-indicator { 
             position: absolute; bottom: 6rem;
@@ -137,12 +143,11 @@
             transition: opacity 0.5s;
         }
         #scroll-indicator svg { filter: drop-shadow(0 0 8px #FFCB0A); }
-        #scroll-indicator.hidden { opacity: 0; }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
         .animate-bounce-slow { animation: bounce 2s infinite; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); z-index: 100; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; } .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content { width: 90%; max-width: 900px; max-height: 80vh; overflow-y: auto; transform: scale(0.7); opacity: 0; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); } .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
+        .modal-content { width: 90%; max-width: 900px; max-height: 80vh; overflow-y: auto; transform: scale(0.95); opacity: 0; transition: all 0.4s 0.2s cubic-bezier(0.23, 1, 0.32, 1); } .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
         .close-button { position: absolute; top: 1rem; right: 1.5rem; font-size: 2.5rem; font-weight: bold; color: white; cursor: pointer; transition: transform 0.2s; z-index: 10; } .close-button:hover { transform: scale(1.1); }
     </style>
 </head>
@@ -178,41 +183,197 @@
         <section id="stats" class="py-20 sm:py-24">
             <div class="container mx-auto px-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="glass-panel p-8 rounded-4xl text-center reveal"><div class="text-6xl font-extrabold neon-maize-text counter" data-target="3587">0</div><div class="mt-2 text-xl font-semibold text-white">Miles Per Gallon</div></div>
-                    <div class="glass-panel p-8 rounded-4xl text-center reveal" style="transition-delay: 200ms;"><div class="text-6xl font-extrabold neon-maize-text counter" data-target="1">0</div><div class="mt-2 text-xl font-semibold text-white">Place National Title</div></div>
-                    <div class="glass-panel p-8 rounded-4xl text-center reveal" style="transition-delay: 400ms;"><div class="text-6xl font-extrabold neon-maize-text counter" data-target="20">0</div><div class="mt-2 text-xl font-semibold text-white">Active Members</div></div>
+                    <div class="card-container reveal"><div class="holo-card glass-panel p-8 rounded-4xl text-center"><div class="text-6xl font-extrabold neon-maize-text counter" data-target="3587">0</div><div class="mt-2 text-xl font-semibold text-white">Miles Per Gallon</div></div></div>
+                    <div class="card-container reveal" style="transition-delay: 150ms;"><div class="holo-card glass-panel p-8 rounded-4xl text-center"><div class="text-6xl font-extrabold neon-maize-text counter" data-target="1">0</div><div class="mt-2 text-xl font-semibold text-white">Place National Title</div></div></div>
+                    <div class="card-container reveal" style="transition-delay: 300ms;"><div class="holo-card glass-panel p-8 rounded-4xl text-center"><div class="text-6xl font-extrabold neon-maize-text counter" data-target="20">0</div><div class="mt-2 text-xl font-semibold text-white">Active Members</div></div></div>
                 </div>
             </div>
         </section>
         
         <section id="fleet" class="py-20 sm:py-24">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="text-4xl md:text-5xl font-extrabold reveal neon-white-text">Our Fleet</h2>
-                <div class="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
-                    <div class="glass-panel fleet-card rounded-4xl transition-all duration-300 reveal" data-modal-target="#modal-ventus"><img src="https://i.imgur.com/tH0XNn4.png" alt="Prototype Vehicle" class="w-full h-80 object-contain p-4"><div class="p-8"><h3 class="text-3xl font-bold neon-maize-text">Ventus</h3><p class="mt-3 text-gray-300">Our prototype class vehicle, optimized for peak aerodynamic performance.</p></div></div>
-                    <div class="glass-panel fleet-card rounded-4xl transition-all duration-300 reveal" style="transition-delay: 200ms;" data-modal-target="#modal-aurum"><img src="https://i.imgur.com/L79pYlA.png" alt="Urban Concept Vehicle" class="w-full h-80 object-contain p-4"><div class="p-8"><h3 class="text-3xl font-bold neon-maize-text">Aurum</h3><p class="mt-3 text-gray-300">Our urban concept car, designed with practical road features and peak efficiency.</p></div></div>
-                    <div class="glass-panel fleet-card rounded-4xl transition-all duration-300 reveal" style="transition-delay: 400ms;" data-modal-target="#modal-ignis"><img src="https://i.imgur.com/your-third-vehicle-image.png" alt="Third Vehicle" class="w-full h-80 object-contain p-4"><div class="p-8"><h3 class="text-3xl font-bold neon-maize-text">Ignis</h3><p class="mt-3 text-gray-300">Our latest innovation, pushing the boundaries of sustainable mobility.</p></div></div>
+                <h2 class="text-4xl md:text-5xl font-extrabold neon-white-text reveal">Our Fleet</h2>
+                <div class="mt-16 flex flex-col lg:flex-row gap-10">
+                    <div class="card-container reveal flex">
+                        <div class="holo-card glass-panel rounded-4xl flex flex-col h-full" data-modal-target="#modal-ventus">
+                            <div class="h-2/3"><img src="https://i.imgur.com/tH0XNn4.png" alt="Prototype Vehicle" class="w-full h-full object-cover"></div>
+                            <div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-3xl font-bold neon-maize-text">Maple</h3><p class="mt-2 text-gray-300 text-sm">Our prototype class vehicle, optimized for peak aerodynamic performance.</p></div>
+                        </div>
+                    </div>
+                    <div class="card-container reveal flex" style="transition-delay: 150ms;">
+                        <div class="holo-card glass-panel rounded-4xl flex flex-col h-full" data-modal-target="#modal-aurum">
+                             <div class="h-2/3"><img src="https://i.imgur.com/L79pYlA.png" alt="Urban Concept Vehicle" class="w-full h-full object-cover"></div>
+                            <div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-3xl font-bold neon-maize-text">Magnolia</h3><p class="mt-2 text-gray-300 text-sm">Our urban concept car, designed with practical road features and peak efficiency.</p></div>
+                        </div>
+                    </div>
+                    <div class="card-container reveal flex" style="transition-delay: 300ms;">
+                        <div class="holo-card glass-panel rounded-4xl flex flex-col h-full" data-modal-target="#modal-ignis">
+                            <div class="h-2/3"><img src="https://i.imgur.com/your-third-vehicle-image.png" alt="Third Vehicle" class="w-full h-full object-cover bg-gray-900"></div>
+                            <div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-3xl font-bold neon-maize-text">Cedar</h3><p class="mt-2 text-gray-300 text-sm">Our latest innovation, pushing the boundaries of sustainable mobility.</p></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="join" class="py-24">
-            <div class="container mx-auto px-6"><div class="glass-panel rounded-4xl p-10 md:p-16 text-center reveal"><h2 class="text-4xl md:text-5xl font-extrabold neon-white-text">Become Part of the Legacy</h2><p class="mt-4 max-w-3xl mx-auto text-gray-300">Whether you are a student eager to apply your skills, or a company looking to sponsor the future of automotive innovation, we have a place for you.</p><div class="mt-10 flex flex-col sm:flex-row justify-center gap-4"><a href="#" class="bg-michigan-maize text-dark-navy font-bold py-3 px-8 rounded-lg text-lg tracking-wide hover:bg-opacity-90 transition-all duration-300">For Students</a><a href="#" class="bg-transparent border-2 border-michigan-maize text-michigan-maize font-bold py-3 px-8 rounded-lg text-lg tracking-wide hover:bg-michigan-maize hover:text-dark-navy transition-all duration-300">For Sponsors</a></div></div></div>
+            <div class="container mx-auto px-6">
+                <div class="card-container reveal">
+                    <div class="holo-card glass-panel rounded-4xl p-10 md:p-16 text-center">
+                        <h2 class="text-4xl md:text-5xl font-extrabold neon-white-text">Become Part of the Legacy</h2>
+                        <p class="mt-4 max-w-3xl mx-auto text-gray-300">Whether you are a student eager to apply your skills, or a company looking to sponsor the future of automotive innovation, we have a place for you.</p>
+                        <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                            <a href="#" class="bg-michigan-maize text-dark-navy font-bold py-3 px-8 rounded-lg text-lg tracking-wide hover:bg-opacity-90 transition-all duration-300">For Students</a>
+                            <a href="#" class="bg-transparent border-2 border-michigan-maize text-michigan-maize font-bold py-3 px-8 rounded-lg text-lg tracking-wide hover:bg-michigan-maize hover:text-dark-navy transition-all duration-300">For Sponsors</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <footer class="mt-12">
             <div class="container mx-auto px-6 py-8"><div class="glass-panel rounded-4xl p-8 text-center text-gray-400"><p>&copy; 2025 University of Michigan Supermileage. All Rights Reserved.</p><p class="mt-1 text-sm">Ann Arbor, Michigan</p></div></div>
         </footer>
     </main>
-    <div id="modal-ventus" class="modal-overlay"><div class="glass-panel modal-content rounded-4xl p-8 lg:p-12"><span class="close-button">&times;</span><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"><div><img src="https://i.imgur.com/tH0XNn4.png" alt="Ventus" class="rounded-3xl w-full h-auto"></div><div><h2 class="text-4xl font-bold neon-maize-text mb-6">Ventus</h2><p class="text-lg text-gray-300">A deep dive into our prototype class vehicle. The Ventus is the culmination of years of aerodynamic research and lightweight material science. Its carbon fiber monocoque chassis provides exceptional rigidity at a fraction of the weight of traditional frames.</p></div></div></div></div>
-    <div id="modal-aurum" class="modal-overlay"><div class="glass-panel modal-content rounded-4xl p-8 lg:p-12"><span class="close-button">&times;</span><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"><div><img src="https://i.imgur.com/L79pYlA.png" alt="Aurum" class="rounded-3xl w-full h-auto"></div><div><h2 class="text-4xl font-bold neon-maize-text mb-6">Aurum</h2><p class="text-lg text-gray-300">Exploring the Aurum, our urban concept car. Designed to meet practical road-going requirements like headlights and turn signals, the Aurum still achieves incredible fuel economy. Its design philosophy balances real-world usability with extreme efficiency.</p></div></div></div></div>
-    <div id="modal-ignis" class="modal-overlay"><div class="glass-panel modal-content rounded-4xl p-8 lg:p-12"><span class="close-button">&times;</span><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"><div><img src="https://i.imgur.com/your-third-vehicle-image.png" alt="Ignis" class="rounded-3xl w-full h-auto bg-gray-800"></div><div><h2 class="text-4xl font-bold neon-maize-text mb-6">Ignis</h2><p class="text-lg text-gray-300">Ignis represents the future of our team's engineering. This next-generation vehicle explores alternative powertrains and cutting-edge manufacturing techniques, serving as our primary R&D platform for the next decade of competition.</p></div></div></div></div>
+
+    <div id="modal-ventus" class="modal-overlay">
+        <div class="glass-panel modal-content rounded-4xl p-8 lg:p-12">
+            <span class="close-button">&times;</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div><img src="https://i.imgur.com/tH0XNn4.png" alt="Maple" class="rounded-3xl w-full h-auto"></div>
+                <div>
+                    <h2 class="text-4xl font-bold neon-maize-text mb-6">Maple</h2>
+                    <p class="text-lg text-gray-300">A deep dive into our prototype class vehicle. The Ventus is the culmination of years of aerodynamic research and lightweight material science. Its carbon fiber monocoque chassis provides exceptional rigidity at a fraction of the weight of traditional frames.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-aurum" class="modal-overlay">
+        <div class="glass-panel modal-content rounded-4xl p-8 lg:p-12">
+            <span class="close-button">&times;</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div><img src="https://i.imgur.com/L79pYlA.png" alt="Magnolia" class="rounded-3xl w-full h-auto"></div>
+                <div>
+                    <h2 class="text-4xl font-bold neon-maize-text mb-6">Magnolia</h2>
+                    <p class="text-lg text-gray-300">Exploring the Aurum, our urban concept car. Designed to meet practical road-going requirements like headlights and turn signals, the Aurum still achieves incredible fuel economy. Its design philosophy balances real-world usability with extreme efficiency.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-ignis" class="modal-overlay">
+        <div class="glass-panel modal-content rounded-4xl p-8 lg:p-12">
+            <span class="close-button">&times;</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div><img src="https://i.imgur.com/your-third-vehicle-image.png" alt="Cedar" class="rounded-3xl w-full h-auto bg-gray-800"></div>
+                <div>
+                    <h2 class="text-4xl font-bold neon-maize-text mb-6">Cedar</h2>
+                    <p class="text-lg text-gray-300">Ignis represents the future of our team's engineering. This next-generation vehicle explores alternative powertrains and cutting-edge manufacturing techniques, serving as our primary R&D platform for the next decade of competition.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Modal Logic
-            const openModalButtons=document.querySelectorAll('[data-modal-target]');const closeModalButtons=document.querySelectorAll('.close-button');const overlays=document.querySelectorAll('.modal-overlay');openModalButtons.forEach(button=>{button.addEventListener('click',()=>{const modal=document.querySelector(button.dataset.modalTarget);openModal(modal);});});closeModalButtons.forEach(button=>{button.addEventListener('click',()=>{const modal=button.closest('.modal-overlay');closeModal(modal);});});overlays.forEach(overlay=>{overlay.addEventListener('click',e=>{if(e.target===overlay){closeModal(overlay);}});});function openModal(modal){if(modal==null)return;modal.classList.add('active');document.body.classList.add('modal-open');}function closeModal(modal){if(modal==null)return;modal.classList.remove('active');document.body.classList.remove('modal-open');}
-            // Other Page Logic
-            const navLinksContainer=document.getElementById('nav-links');const navSlider=document.getElementById('nav-slider');const navLinks=navLinksContainer.querySelectorAll('a');const scrollIndicator=document.getElementById('scroll-indicator');navLinks.forEach(link=>{link.addEventListener('mouseenter',()=>{navSlider.style.width=`${link.offsetWidth}px`;navSlider.style.left=`${link.offsetLeft}px`;navSlider.style.opacity='1';});});navLinksContainer.addEventListener('mouseleave',()=>{navSlider.style.opacity='0';});window.addEventListener('scroll',()=>{scrollIndicator.style.opacity=1-Math.min(window.scrollY/100,1);});const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.target.classList.contains('counter')){const counter=entry.target;if(entry.isIntersecting&&!counter.classList.contains('animated')){counter.classList.add('animated');const target=+counter.getAttribute('data-target');const duration=1500;let start=null;const step=timestamp=>{if(!start)start=timestamp;const progress=Math.min((timestamp-start)/duration,1);counter.innerText=Math.floor(progress*target).toLocaleString();if(progress<1)requestAnimationFrame(step);};requestAnimationFrame(step);}}else if(entry.isIntersecting){entry.target.classList.add('visible');}});},{threshold:0.1});document.querySelectorAll('.reveal, .counter').forEach(el=>observer.observe(el));
+            // Navbar and Scroll Indicator
+            const navLinksContainer = document.getElementById('nav-links');const navSlider = document.getElementById('nav-slider');const navLinks = navLinksContainer.querySelectorAll('a');navLinks.forEach(link => { link.addEventListener('mouseenter', () => { navSlider.style.width = `${link.offsetWidth}px`; navSlider.style.left = `${link.offsetLeft}px`; navSlider.style.opacity = '1'; }); });navLinksContainer.addEventListener('mouseleave', () => { navSlider.style.opacity = '0'; });
+            const scrollIndicator = document.getElementById('scroll-indicator');if(scrollIndicator) { window.addEventListener('scroll', () => { scrollIndicator.style.opacity = 1 - Math.min(window.scrollY / 100, 1); }); }
+
+            // Holographic Card Logic
+            const cards = document.querySelectorAll('.holo-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    if (card.classList.contains('is-animating')) return;
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const { width, height } = rect;
+                    const rotateY = 25 * ((x - width / 2) / (width / 2));
+                    const rotateX = -25 * ((y - height / 2) / (height / 2));
+                    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    if (card.classList.contains('is-animating')) return;
+                    card.style.transform = 'rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                });
+            });
+            
+            // Click Animation & Modal Logic
+            const modals = document.querySelectorAll('.modal-overlay');
+            const closeButtons = document.querySelectorAll('.close-button');
+            cards.forEach(card => {
+                const targetModalId = card.dataset.modalTarget;
+                if (!targetModalId) return;
+
+                card.addEventListener('click', () => {
+                    if (card.classList.contains('is-animating')) return;
+                    card.classList.add('is-animating');
+                    
+                    const rect = card.getBoundingClientRect();
+                    const clone = card.cloneNode(true);
+                    clone.classList.add('card-clone');
+                    document.body.appendChild(clone);
+                    clone.style.position = 'fixed';
+                    clone.style.top = `${rect.top}px`;
+                    clone.style.left = `${rect.left}px`;
+                    clone.style.width = `${rect.width}px`;
+                    clone.style.height = `${rect.height}px`;
+                    clone.style.transform = card.style.transform;
+                    card.style.opacity = '0';
+
+                    requestAnimationFrame(() => {
+                        clone.style.top = '50%';
+                        clone.style.left = '50%';
+                        clone.style.transform = 'translate(-50%, -50%) rotateX(0deg) rotateY(0deg) scale(1.1)';
+                    });
+
+                    clone.addEventListener('transitionend', () => {
+                        clone.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                        clone.style.opacity = '0';
+                        const modal = document.querySelector(targetModalId);
+                        openModal(modal);
+                        setTimeout(() => clone.remove(), 500);
+                    }, { once: true });
+                });
+            });
+
+            function openModal(modal) { if (modal == null) return; modal.classList.add('active'); document.body.classList.add('modal-open'); }
+            function closeModal(modal) {
+                if (modal == null) return;
+                modal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+                cards.forEach(c => {
+                    c.style.opacity = '1';
+                    c.classList.remove('is-animating');
+                    c.style.transform = 'rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                });
+            }
+            closeButtons.forEach(button => button.addEventListener('click', () => { const modal = button.closest('.modal-overlay'); closeModal(modal); }));
+            modals.forEach(modal => modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(modal); }));
+
+            // Combined Observer for Counters and Reveals
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        const counter = entry.target.querySelector('.counter');
+                        if (counter && !counter.classList.contains('animated')) {
+                            counter.classList.add('animated');
+                            const target = +counter.getAttribute('data-target');
+                            let start = null;
+                            const duration = 1500;
+                            const step = (timestamp) => {
+                                if (!start) start = timestamp;
+                                const progress = Math.min((timestamp - start) / duration, 1);
+                                counter.innerText = Math.floor(progress * target).toLocaleString();
+                                if (progress < 1) { requestAnimationFrame(step); }
+                            };
+                            requestAnimationFrame(step);
+                        }
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         });
     </script>
 </body>

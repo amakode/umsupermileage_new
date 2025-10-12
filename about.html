@@ -51,14 +51,14 @@
         #main-content {
             position: relative;
             z-index: 2;
-            background-color: rgba(1, 13, 26, 0.35);
+            background-color: rgba(1, 13, 26, 0.6);
         }
 
         #navbar { 
             top: 2.5rem; 
         }
         #nav-content { 
-            max-width: 700px;
+            max-width: 700px; 
             margin: 0 auto; 
             position: relative; 
         }
@@ -69,7 +69,6 @@
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); opacity: 0;
         }
         
-        /* Darker glass panel style to match homepage */
         .glass-panel {
             position: relative;
             background: rgba(30, 30, 30, 0.3);
@@ -118,6 +117,7 @@
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
         .animate-bounce-slow { animation: bounce 2s infinite; }
 
+        /* --- Updated Gallery Styles --- */
         .gallery-container {
             perspective: 1200px;
             overflow: hidden;
@@ -133,8 +133,8 @@
 
         .carousel {
             position: relative;
-            width: 250px;
-            height: 350px;
+            width: 250px; /* Width of a single panel */
+            height: 350px; /* Height of a single panel */
             transform-style: preserve-3d;
             transition: transform 0.2s linear;
         }
@@ -148,13 +148,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(30, 30, 30, 0.3); /* Darker style */
+            /* Less transparent background */
+            background: rgba(40, 40, 40, 0.5); 
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.3);
             border-radius: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
             overflow: hidden;
-            opacity: 0.9;
+            opacity: 0.95;
             -webkit-user-drag: none;
             user-select: none;
         }
@@ -163,8 +164,9 @@
             height: 100%;
             object-fit: cover;
             border-radius: 2rem;
-            pointer-events: none;
+            pointer-events: none; /* Make images un-draggable */
         }
+        /* --- End Gallery Styles --- */
         
     </style>
 </head>
@@ -207,6 +209,10 @@
                         <div class="carousel-item"><img src="carousel_imgs/2.jpg" alt="Carousel Image 2"></div>
                         <div class="carousel-item"><img src="carousel_imgs/3.jpg" alt="Carousel Image 3"></div>
                         <div class="carousel-item"><img src="carousel_imgs/4.jpg" alt="Carousel Image 4"></div>
+                        <div class="carousel-item"><img src="carousel_imgs/5.jpg" alt="Carousel Image 5"></div>
+                        <div class="carousel-item"><img src="carousel_imgs/6.jpg" alt="Carousel Image 6"></div>
+                        <div class="carousel-item"><img src="carousel_imgs/7.jpg" alt="Carousel Image 7"></div>
+                        <div class="carousel-item"><img src="carousel_imgs/8.jpg" alt="Carousel Image 8"></div>
                     </div>
                 </div>
             </div>
@@ -241,18 +247,18 @@
             const scrollIndicator = document.getElementById('scroll-indicator');
             if(scrollIndicator) { window.addEventListener('scroll', () => { scrollIndicator.style.opacity = 1 - Math.min(window.scrollY / 100, 1); }); }
 
-            // Carousel Logic
+            // --- Updated Carousel Logic ---
             const carousel = document.getElementById('image-carousel');
             const items = carousel.querySelectorAll('.carousel-item');
             const numItems = items.length;
             const itemAngle = 360 / numItems;
-            const translateZ = 300; 
+            const translateZ = 450; // Increased distance for more spacing
 
             let currentYAngle = 0;
             let isDragging = false;
             let startX = 0;
             let dragAngle = 0;
-            let rotationSpeed = -0.05;
+            let rotationSpeed = -0.03; // Slower constant speed
 
             items.forEach((item, index) => {
                 item.style.transform = `rotateY(${index * itemAngle}deg) translateZ(${translateZ}px)`;
@@ -265,14 +271,18 @@
                 carousel.style.transform = `translateZ(-${translateZ}px) rotateY(${currentYAngle}deg)`;
                 requestAnimationFrame(updateCarouselRotation);
             }
+
             requestAnimationFrame(updateCarouselRotation);
+
             const getEventX = (e) => e.touches ? e.touches[0].clientX : e.clientX;
+
             const onDragStart = (e) => {
                 isDragging = true;
                 startX = getEventX(e);
                 dragAngle = currentYAngle;
                 carousel.style.transition = 'transform 0.0s';
             };
+
             const onDragMove = (e) => {
                 if (!isDragging) return;
                 const currentX = getEventX(e);
@@ -280,14 +290,18 @@
                 const sensitivity = 0.25;
                 currentYAngle = dragAngle + (deltaX * sensitivity);
             };
+
             const onDragEnd = () => {
                 isDragging = false;
                 carousel.style.transition = 'transform 0.2s linear';
             };
+            
             carousel.addEventListener('mousedown', onDragStart);
             carousel.addEventListener('touchstart', onDragStart, { passive: true });
+
             window.addEventListener('mousemove', onDragMove);
             window.addEventListener('touchmove', onDragMove, { passive: true });
+
             window.addEventListener('mouseup', onDragEnd);
             window.addEventListener('touchend', onDragEnd);
         });
