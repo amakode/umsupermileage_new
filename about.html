@@ -117,56 +117,72 @@
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
         .animate-bounce-slow { animation: bounce 2s infinite; }
 
-        /* --- Updated Gallery Styles --- */
-        .gallery-container {
-            perspective: 1200px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 450px;
-            cursor: grab;
+        /* --- New Slideshow Styles --- */
+        #slideshow-container {
+            height: 600px;
+            max-width: 1000px;
+            margin: auto;
         }
-        .gallery-container:active {
-            cursor: grabbing;
-        }
-
-        .carousel {
-            position: relative;
-            width: 250px; /* Width of a single panel */
-            height: 350px; /* Height of a single panel */
-            transform-style: preserve-3d;
-            transition: transform 0.2s linear;
-        }
-
-        .carousel-item {
+        .slide-item {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* Less transparent background */
-            background: rgba(40, 40, 40, 0.5); 
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.3);
-            border-radius: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            overflow: hidden;
-            opacity: 0.95;
-            -webkit-user-drag: none;
-            user-select: none;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+            background-color: rgba(0,0,0,0.3); /* Fallback */
         }
-        .carousel-item img {
+        .slide-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 2rem;
-            pointer-events: none; /* Make images un-draggable */
+            border-radius: 2.5rem; /* rounded-4xl */
         }
-        /* --- End Gallery Styles --- */
+        .slide-item.active {
+            opacity: 1;
+        }
+        .slide-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        .slide-button:hover {
+            opacity: 1;
+            background-color: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 10px #FFCB0A;
+        }
+        #prev-slide { left: 1.5rem; }
+        #next-slide { right: 1.5rem; }
+        
+        #slide-dots {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        .dot {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .dot.active, .dot:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
         
     </style>
 </head>
@@ -202,18 +218,27 @@
 
         <section id="gallery" class="py-24 sm:py-32">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="text-5xl font-bold neon-maize-text mb-12">Our Journey in Pictures</h2>
-                <div class="gallery-container">
-                    <div class="carousel" id="image-carousel">
-                        <div class="carousel-item"><img src="carousel_imgs/1.jpg" alt="Carousel Image 1"></div>
-                        <div class="carousel-item"><img src="carousel_imgs/2.jpg" alt="Carousel Image 2"></div>
-                        <div class="carousel-item"><img src="carousel_imgs/3.jpg" alt="Carousel Image 3"></div>
-                        <div class="carousel-item"><img src="carousel_imgs/4.jpg" alt="Carousel Image 4"></div>
-                        <div class="carousel-item"><img src="carousel_imgs/5.jpg" alt="Carousel Image 5"></div>
-                        <div class="carousel-item"><img src="carousel_imgs/6.jpg" alt="Carousel Image 6"></div>
-                        <div class="carousel-item"><img src="carousel_imgs/7.jpg" alt="Carousel Image 7"></div>
-                        <div class="carousel-item"><img src="carousel_imgs/8.jpg" alt="Carousel Image 8"></div>
-                    </div>
+                <!--<h2 class="text-5xl font-bold neon-maize-text mb-12">Our Journey in Pictures</h2>-->
+                
+                <div id="slideshow-container" class="glass-panel rounded-4xl relative">
+                    <div class="slide-item active"><img src="carousel_imgs/1.jpg" alt="Carousel Image 1"></div>
+                    <div class="slide-item"><img src="carousel_imgs/2.jpg" alt="Carousel Image 2"></div>
+                    <div class="slide-item"><img src="carousel_imgs/3.jpg" alt="Carousel Image 3"></div>
+                    <div class="slide-item"><img src="carousel_imgs/4.jpg" alt="Carousel Image 4"></div>
+                    <div class="slide-item"><img src="carousel_imgs/5.jpg" alt="Carousel Image 5"></div>
+                    <div class="slide-item"><img src="carousel_imgs/6.jpg" alt="Carousel Image 6"></div>
+                    <div class="slide-item"><img src="carousel_imgs/7.jpg" alt="Carousel Image 7"></div>
+                    <div class="slide-item"><img src="carousel_imgs/8.jpg" alt="Carousel Image 8"></div>
+                    
+                    <button id="prev-slide" class="slide-button">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button id="next-slide" class="slide-button">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+
+                    <div id="slide-dots">
+                        </div>
                 </div>
             </div>
         </section>
@@ -222,8 +247,8 @@
             <div class="container mx-auto px-6">
                 <div class="glass-panel rounded-4xl p-8 lg:p-12 text-left space-y-8">
                     <div>
-                        <h2 class="text-3xl font-bold neon-maize-text mb-4">Our Mission</h2>
-                        <p class="text-lg text-gray-300">The University of Michigan Supermileage Team is a student-run, multidisciplinary engineering design team that designs and fabricates a hyper-fuel-efficient, single-occupant vehicle. Our team competes in the Shell Eco-Marathon Americas, an international competition that brings together universities and high schools from across the continents. We strive to push the boundaries of automotive innovation, promoting sustainable transportation and providing an unparalleled hands-on engineering experience for our members.</p>
+                        <h2 class="text-3xl font-bold neon-maize-text mb-4">Our Vision</h2>
+                        <p class="text-lg text-gray-300">The University of Michigan Supermileage Project Team is an engineering organization founded on a mission to redefine sustainable transportation. We design, manufacture and race some of the most energy-efficient vehicles in the world at the Shell Eco-marathon, incorporating both electric and internal combustion powertrains. Our latest battery-electric vehicle achieved an efficiency of 121.3 miles per kilowatt-hour, outperforming many of today’s production EVs. We’re not stopping there. Our next goal is to break the world record for “Greatest distance by electric vehicle, single charge (non-solar),” through which we aim to challenge conventional approaches within the automotive industry and showcase what is possible with today’s technology. By sharing our findings through our competitions, we hope to inspire innovation that could reshape the future of transportation.</p>
                     </div>
                 </div>
             </div>
@@ -247,63 +272,76 @@
             const scrollIndicator = document.getElementById('scroll-indicator');
             if(scrollIndicator) { window.addEventListener('scroll', () => { scrollIndicator.style.opacity = 1 - Math.min(window.scrollY / 100, 1); }); }
 
-            // --- Updated Carousel Logic ---
-            const carousel = document.getElementById('image-carousel');
-            const items = carousel.querySelectorAll('.carousel-item');
-            const numItems = items.length;
-            const itemAngle = 360 / numItems;
-            const translateZ = 450; // Increased distance for more spacing
+            // --- New Slideshow Logic ---
+            const slides = document.querySelectorAll('.slide-item');
+            const dotsContainer = document.getElementById('slide-dots');
+            const prevButton = document.getElementById('prev-slide');
+            const nextButton = document.getElementById('next-slide');
+            let currentSlide = 0;
+            let slideInterval;
 
-            let currentYAngle = 0;
-            let isDragging = false;
-            let startX = 0;
-            let dragAngle = 0;
-            let rotationSpeed = -0.03; // Slower constant speed
-
-            items.forEach((item, index) => {
-                item.style.transform = `rotateY(${index * itemAngle}deg) translateZ(${translateZ}px)`;
+            // Create dots
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.classList.add('dot');
+                dot.dataset.slide = i;
+                dotsContainer.appendChild(dot);
             });
 
-            function updateCarouselRotation() {
-                if (!isDragging) {
-                    currentYAngle += rotationSpeed;
-                }
-                carousel.style.transform = `translateZ(-${translateZ}px) rotateY(${currentYAngle}deg)`;
-                requestAnimationFrame(updateCarouselRotation);
+            const dots = document.querySelectorAll('.dot');
+
+            function showSlide(index) {
+                // Update slides
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                // Update dots
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+                currentSlide = index;
             }
 
-            requestAnimationFrame(updateCarouselRotation);
+            function nextSlide() {
+                let newIndex = (currentSlide + 1) % slides.length;
+                showSlide(newIndex);
+            }
 
-            const getEventX = (e) => e.touches ? e.touches[0].clientX : e.clientX;
+            function prevSlide() {
+                let newIndex = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(newIndex);
+            }
 
-            const onDragStart = (e) => {
-                isDragging = true;
-                startX = getEventX(e);
-                dragAngle = currentYAngle;
-                carousel.style.transition = 'transform 0.0s';
-            };
+            function startSlideShow() {
+                slideInterval = setInterval(nextSlide, 5000); // 5-second cycle
+            }
 
-            const onDragMove = (e) => {
-                if (!isDragging) return;
-                const currentX = getEventX(e);
-                const deltaX = currentX - startX;
-                const sensitivity = 0.25;
-                currentYAngle = dragAngle + (deltaX * sensitivity);
-            };
+            function resetSlideShow() {
+                clearInterval(slideInterval);
+                startSlideShow();
+            }
 
-            const onDragEnd = () => {
-                isDragging = false;
-                carousel.style.transition = 'transform 0.2s linear';
-            };
-            
-            carousel.addEventListener('mousedown', onDragStart);
-            carousel.addEventListener('touchstart', onDragStart, { passive: true });
+            // Event Listeners
+            nextButton.addEventListener('click', () => {
+                nextSlide();
+                resetSlideShow();
+            });
 
-            window.addEventListener('mousemove', onDragMove);
-            window.addEventListener('touchmove', onDragMove, { passive: true });
+            prevButton.addEventListener('click', () => {
+                prevSlide();
+                resetSlideShow();
+            });
 
-            window.addEventListener('mouseup', onDragEnd);
-            window.addEventListener('touchend', onDragEnd);
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    showSlide(parseInt(dot.dataset.slide));
+                    resetSlideShow();
+                });
+            });
+
+            // Initialize
+            showSlide(0);
+            startSlideShow();
         });
     </script>
 </body>

@@ -41,7 +41,6 @@
             background-position: center;
             background-attachment: fixed;
         }
-        body.modal-open { overflow: hidden; }
         
         #aurora-background { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -52,7 +51,7 @@
         #main-content {
             position: relative;
             z-index: 2;
-            background-color: rgba(1, 13, 26, 0.25);
+            background-color: rgba(1, 13, 26, 0.6);
         }
 
         #navbar { top: 2.5rem; }
@@ -109,20 +108,6 @@
             overflow: hidden;
         }
         
-        .card-clone {
-            position: fixed;
-            z-index: 101;
-            pointer-events: none;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); z-index: 100; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; }
-        .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content { width: 90%; max-width: 900px; max-height: 80vh; overflow-y: auto; transform: scale(0.95); opacity: 0; transition: all 0.4s 0.2s cubic-bezier(0.23, 1, 0.32, 1); }
-        .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
-        .close-button { position: absolute; top: 1rem; right: 1.5rem; font-size: 2.5rem; font-weight: bold; color: white; cursor: pointer; transition: transform 0.2s; z-index: 10; }
-        .close-button:hover { transform: scale(1.1); }
-
         /* Waterfall Animation Styles */
         .waterfall-item {
             opacity: 0;
@@ -159,7 +144,7 @@
     <main id="main-content">
         <section class="hero-section">
             <h1 class="text-6xl md:text-8xl font-extrabold neon-white-text text-center">Meet the Team</h1>
-            <p class="mt-4 max-w-2xl mx-auto text-gray-300 text-lg md:text-xl text-center">The dedicated students leading the charge in our pursuit of hyper-efficiency.</p>
+            <p class="mt-4 max-w-2xl mx-auto text-gray-300 text-lg md:text-xl text-center">The dedicated students leading the charge.</p>
             <div id="scroll-indicator"><svg class="w-10 h-10 text-white/70 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></div>
         </section>
 
@@ -169,13 +154,13 @@
                     <h2 class="text-5xl font-bold neon-maize-text mb-12">Executive Board</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div class="card-container waterfall-item">
-                            <div class="holo-card glass-panel rounded-4xl flex flex-col" data-name="Dallas Quaresma" data-title="Project Manager" data-bio="[Placeholder for bio]" data-img="headshots/Dallas24-25.jpg"><div class="h-2/3"><img src="headshots/Dallas24-25.jpg" alt="Headshot" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Dallas Quaresma</h3><p class="text-lg text-gray-200">Project Manager</p></div></div>
+                            <div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/dallas.jpg" alt="Headshot" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Dallas Quaresma</h3><p class="text-lg text-gray-200">Project Manager</p></div></div>
                         </div>
                         <div class="card-container waterfall-item">
-                             <div class="holo-card glass-panel rounded-4xl flex flex-col" data-name="Harrison Keller" data-title="Chief Engineer" data-bio="[Placeholder for bio]" data-img="headshots/Harry24-25.jpg"><div class="h-2/3"><img src="headshots/Harry24-25.jpg" alt="Headshot" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Harrison Keller</h3><p class="text-lg text-gray-200">Chief Engineer</p></div></div>
+                             <div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/harry.jpg" alt="Headshot" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Harrison Keller</h3><p class="text-lg text-gray-200">Chief Engineer</p></div></div>
                         </div>
                         <div class="card-container waterfall-item">
-                             <div class="holo-card glass-panel rounded-4xl flex flex-col" data-name="Varun Kaushik" data-title="Business Lead" data-bio="[Placeholder for bio]" data-img="headshots/Varun24-25.jpg"><div class="h-2/3"><img src="headshots/Varun24-25.jpg" alt="Headshot" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Varun Kaushik</h3><p class="text-lg text-gray-200">Business Lead</p></div></div>
+                             <div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/Varun24-25.jpg" alt="Headshot" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Varun Kaushik</h3><p class="text-lg text-gray-200">Business Lead</p></div></div>
                         </div>
                     </div>
                 </div>
@@ -183,11 +168,11 @@
                 <div class="text-center waterfall-container">
                     <h2 class="text-5xl font-bold neon-maize-text mb-12">Subsystems Leads</h2>
                     <div class="flex flex-wrap justify-center -mx-4">
-                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col" data-name="Placeholder" data-title="Engine Lead" data-bio="[Placeholder for bio]" data-img="headshots/placeholder.png"><div class="h-2/3"><img src="headshots/placeholder.png" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Placeholder</h3><p class="text-lg text-gray-200">Engine Lead</p></div></div></div></div>
-                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col" data-name="Placeholder" data-title="Electrical Lead" data-bio="[Placeholder for bio]" data-img="headshots/placeholder.png"><div class="h-2/3"><img src="headshots/placeholder.png" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Placeholder</h3><p class="text-lg text-gray-200">Electrical Lead</p></div></div></div></div>
-                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col" data-name="Placeholder" data-title="Body & Chassis Lead" data-bio="[Placeholder for bio]" data-img="headshots/placeholder.png"><div class="h-2/3"><img src="headshots/placeholder.png" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Placeholder</h3><p class="text-lg text-gray-200">Body & Chassis</p></div></div></div></div>
-                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col" data-name="Placeholder" data-title="Drivetrain Lead" data-bio="[Placeholder for bio]" data-img="headshots/placeholder.png"><div class="h-2/3"><img src="headshots/placeholder.png" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Placeholder</h3><p class="text-lg text-gray-200">Drivetrain Lead</p></div></div></div></div>
-                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col" data-name="Placeholder" data-title="Strategy Lead" data-bio="[Placeholder for bio]" data-img="headshots/placeholder.png"><div class="h-2/3"><img src="headshots/placeholder.png" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Placeholder</h3><p class="text-lg text-gray-200">Strategy Lead</p></div></div></div></div>
+                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/caleb.jpg" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Caleb Albright</h3><p class="text-lg text-gray-200">Aerodynamics Lead</p></div></div></div></div>
+                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/simon.jpg" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Simon Gelb</h3><p class="text-lg text-gray-200">Electrical Systems Co-Lead</p></div></div></div></div>
+                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/vishal.jpg" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Vishal Vijayarajan</h3><p class="text-lg text-gray-200">Electrical Systems Co-Lead</p></div></div></div></div>
+                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/jasmin.jpg" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Jasmin Beltrame</h3><p class="text-lg text-gray-200">Mechanical Systems Lead</p></div></div></div></div>
+                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/placeholder.png" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Reese Long</h3><p class="text-lg text-gray-200">Powertrain Lead</p></div></div></div></div>
                     </div>
                 </div>
             </div>
@@ -197,12 +182,6 @@
             <div class="container mx-auto px-6 py-8"><div class="glass-panel rounded-4xl p-8 text-center text-gray-400"><p>&copy; 2025 University of Michigan Supermileage. All Rights Reserved.</p><p class="mt-1 text-sm">Ann Arbor, Michigan</p></div></div>
         </footer>
     </main>
-
-    <div id="team-modal" class="modal-overlay">
-        <div class="glass-panel modal-content rounded-4xl p-8 lg:p-12">
-            <span class="close-button">&times;</span><div id="modal-body" class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"></div>
-        </div>
-    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -214,7 +193,6 @@
             const cards = document.querySelectorAll('.holo-card');
             cards.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
-                    if (card.classList.contains('is-animating')) return;
                     const rect = card.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
@@ -224,75 +202,11 @@
                     card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
                 });
                 card.addEventListener('mouseleave', () => {
-                    if (card.classList.contains('is-animating')) return;
                     card.style.transform = 'rotateX(0) rotateY(0) scale3d(1, 1, 1)';
                 });
             });
 
-            const modal = document.getElementById('team-modal');
-            const modalBody = document.getElementById('modal-body');
-            const closeButton = modal.querySelector('.close-button');
-
-            cards.forEach(card => {
-                card.addEventListener('click', () => {
-                    if (card.classList.contains('is-animating')) return;
-                    card.classList.add('is-animating');
-                    
-                    const rect = card.getBoundingClientRect();
-                    const clone = card.cloneNode(true);
-                    clone.classList.add('card-clone');
-                    document.body.appendChild(clone);
-
-                    clone.style.position = 'fixed';
-                    clone.style.top = `${rect.top}px`;
-                    clone.style.left = `${rect.left}px`;
-                    clone.style.width = `${rect.width}px`;
-                    clone.style.height = `${rect.height}px`;
-                    clone.style.transform = card.style.transform;
-                    
-                    card.style.opacity = '0';
-
-                    requestAnimationFrame(() => {
-                        clone.style.top = '50%';
-                        clone.style.left = '50%';
-                        clone.style.transform = 'translate(-50%, -50%) rotateX(0deg) rotateY(0deg) scale(1.1)';
-                    });
-
-                    clone.addEventListener('transitionend', () => {
-                        clone.style.transform = 'translate(-50%, -50%) scale(1.5)';
-                        clone.style.opacity = '0';
-                        
-                        const name = card.dataset.name;
-                        const title = card.dataset.title;
-                        const bio = card.dataset.bio;
-                        const imgSrc = card.dataset.img;
-                        modalBody.innerHTML = `<div><img src="${imgSrc}" alt="${name}" class="rounded-3xl w-full h-auto"></div><div><h2 class="text-4xl font-bold neon-maize-text mb-2">${name}</h2><p class="text-xl text-gray-300 mb-4">${title}</p><p class="text-lg text-gray-300">${bio}</p></div>`;
-                        openModal(modal);
-
-                        setTimeout(() => clone.remove(), 500);
-                    }, { once: true });
-                });
-            });
-
-            function openModal(modal) {
-                if (modal == null) return;
-                modal.classList.add('active');
-                document.body.classList.add('modal-open');
-            }
-
-            function closeModal(modal) {
-                if (modal == null) return;
-                modal.classList.remove('active');
-                document.body.classList.remove('modal-open');
-                cards.forEach(c => {
-                    c.style.opacity = '1';
-                    c.classList.remove('is-animating');
-                    c.style.transform = 'rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-                });
-            }
-
-            closeButton.addEventListener('click', () => closeModal(modal));
-            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(modal); });
+            // Modal JavaScript removed
 
             // Waterfall Animation Logic
             const observer = new IntersectionObserver((entries) => {

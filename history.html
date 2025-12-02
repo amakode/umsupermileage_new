@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History | University of Michigan Supermileage</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'michigan-maize': '#FFCB0A',
+                        'michigan-blue': '#00274C',
+                        'dark-navy': '#010d1a',
+                    },
+                    fontFamily: {
+                        'sans': ['"Manrope"', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        '4xl': '2.5rem',
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #010d1a;
+            color: #f0f0f0;
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+            background-image: url('zoomed_out.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        #aurora-background { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: 1;
+            overflow: hidden; 
+        }
+
+        #main-content {
+            position: relative;
+            z-index: 2;
+            background-color: rgba(1, 13, 26, 0.6); /* Subpage dark overlay */
+        }
+
+        #navbar { top: 2.5rem; }
+        #nav-content { max-width: 800px; margin: 0 auto; position: relative; }
+        #nav-slider {
+            position: absolute; height: 75%; top: 12.5%;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 9999px; z-index: -1;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); opacity: 0;
+        }
+        
+        .glass-panel {
+            position: relative;
+            background: rgba(30, 30, 30, 0.3);
+            backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+        }
+        .glass-panel::before {
+            content: '';
+            position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+            background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        .glass-panel-light {
+            background: rgba(30, 30, 30, 0.2);
+            backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
+        }
+
+        .neon-maize-text { color: #FFCB0A; text-shadow: 0 0 4px #FFCB0A, 0 0 8px #FFCB0A; }
+        .neon-white-text { color: #F0F0F0; text-shadow: 0 0 4px #F0F0F0, 0 0 8px #F0F0F0; }
+
+        .aurora-shape { position: absolute; border-radius: 100%; filter: blur(120px); opacity: 0.5; }
+        #aurora-1 { width: 800px; height: 600px; top: -20%; left: -10%; background: rgba(0, 39, 76, 0.2); animation: move-aurora 25s infinite alternate ease-in-out; }
+        #aurora-2 { width: 900px; height: 700px; bottom: -30%; right: -20%; background: rgba(0, 80, 150, 0.2); animation: move-aurora 30s infinite alternate ease-in-out; } 
+        #aurora-3 { width: 700px; height: 550px; top: 10%; left: -15%; background: rgba(0, 39, 76, 0.2); animation: move-aurora 28s infinite alternate ease-in-out reverse; }
+        @keyframes move-aurora { from { transform: rotate(0deg) translateX(50px) rotate(0deg) scale(1); } to { transform: rotate(360deg) translateX(50px) rotate(-360deg) scale(1.2); } }
+        
+        .hero-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
+        #scroll-indicator { position: absolute; bottom: 6rem; z-index: 5; transition: opacity 0.5s; }
+        #scroll-indicator svg { filter: drop-shadow(0 0 8px #FFCB0A); }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+        .animate-bounce-slow { animation: bounce 2s infinite; }
+
+        /* --- New Timeline Styles --- */
+        .timeline-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        /* The central line */
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            background-color: #FFCB0A;
+            box-shadow: 0 0 15px #FFCB0A, 0 0 5px #FFCB0A;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1.5px;
+            opacity: 0.7;
+        }
+        .timeline-entry {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-out;
+        }
+        .timeline-entry.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .timeline-left { left: 0; padding-right: 70px; }
+        .timeline-right { left: 50%; padding-left: 70px; }
+
+        /* New Connector: Node */
+        .timeline-node {
+            position: absolute;
+            top: 32px;
+            width: 18px;
+            height: 18px;
+            background-color: #010d1a;
+            border: 3px solid #FFCB0A;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #FFCB0A;
+            z-index: 10;
+        }
+        .timeline-left .timeline-node {
+            right: -9px;
+        }
+        .timeline-right .timeline-node {
+            left: -9px;
+        }
+
+        /* New Connector: Laser Line */
+        .timeline-node::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 2px;
+            width: 52px; /* 40px padding + 12px to node edge */
+            background-color: #FFCB0A;
+            box-shadow: 0 0 10px #FFCB0A;
+            opacity: 0.5;
+        }
+        .timeline-left .timeline-node::after {
+            right: 100%;
+        }
+        .timeline-right .timeline-node::after {
+            left: 100%;
+        }
+        
+        .card-container { perspective: 1000px; }
+        .holo-card {
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="aurora-background">
+        <div id="aurora-1" class="aurora-shape"></div>
+        <div id="aurora-2" class="aurora-shape"></div>
+        <div id="aurora-3" class="aurora-shape"></div>
+    </div>
+
+    <header id="navbar" class="fixed left-0 right-0 z-50">
+        <div id="nav-content" class="glass-panel glass-panel-light rounded-full p-2">
+            <div id="nav-slider"></div>
+            <nav id="nav-links" class="flex justify-around items-center text-gray-200 font-semibold">
+                <a href="index.html" class="px-5 py-2 z-10 transition-colors">Home</a>
+                <a href="about.html" class="px-5 py-2 z-10 transition-colors">About</a>
+                <a href="team.html" class="px-5 py-2 z-10 transition-colors">Team</a>
+                <a href="history.html" class="px-5 py-2 z-10 transition-colors">History</a>
+                <a href="sponsors.html" class="px-5 py-2 z-10 transition-colors">Sponsors</a>
+                <a href="index.html#fleet" class="px-5 py-2 z-10 transition-colors">Fleet</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="hero-section">
+            <h1 class="text-6xl md:text-8xl font-extrabold neon-white-text text-center">Our Journey</h1>
+            <p class="mt-4 max-w-2xl mx-auto text-gray-300 text-lg md:text-xl text-center">A legacy of innovation, milestones, and record-breaking efficiency.</p>
+            <div id="scroll-indicator">
+                <svg class="w-10 h-10 text-white/70 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </div>
+        </section>
+
+        <section id="history" class="py-24 sm:py-32">
+            <div class="timeline-container">
+                
+                <div class="timeline-entry timeline-left">
+                    <div class="timeline-node"></div>
+                    <div class="card-container">
+                        <div class="holo-card glass-panel rounded-4xl p-6">
+                            <span class="text-lg font-bold neon-maize-text">2023</span>
+                            <h3 class="text-2xl font-bold text-white mt-1 mb-2">First Place National Title</h3>
+                            <img src="./images/history/comp_2023.jpg" alt="Team at 2023 competition" class="rounded-3xl w-full h-auto mb-4">
+                            <p class="text-gray-300">Our prototype vehicle, Ventus, achieved an astounding 3,587 MPG at the Shell Eco-Marathon, securing the 1st place title in North America.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-entry timeline-right">
+                    <div class="timeline-node"></div>
+                     <div class="card-container">
+                        <div class="holo-card glass-panel rounded-4xl p-6">
+                            <span class="text-lg font-bold neon-maize-text">2021</span>
+                            <h3 class="text-2xl font-bold text-white mt-1 mb-2">A New Era: Aurum</h3>
+                            <img src="./images/history/aurum_cad.jpg" alt="CAD model of Aurum" class="rounded-3xl w-full h-auto mb-4">
+                            <p class="text-gray-300">The team unveiled Aurum, our first-ever Urban Concept vehicle, designed with practical road features while still pushing the limits of fuel efficiency.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-entry timeline-left">
+                    <div class="timeline-node"></div>
+                     <div class="card-container">
+                        <div class="holo-card glass-panel rounded-4xl p-6">
+                            <span class="text-lg font-bold neon-maize-text">2018</span>
+                            <h3 class="text-2xl font-bold text-white mt-1 mb-2">Carbon Fiber Innovation</h3>
+                            <img src="./images/history/composites.jpg" alt="Team working on composites" class="rounded-3xl w-full h-auto mb-4">
+                            <p class="text-gray-300">The team successfully designed and manufactured its first full carbon-fiber monocoque chassis, dramatically reducing vehicle weight and setting a new internal standard.</p>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="timeline-entry timeline-right">
+                    <div class="timeline-node"></div>
+                     <div class="card-container">
+                        <div class="holo-card glass-panel rounded-4xl p-6">
+                            <span class="text-lg font-bold neon-maize-text">2015</span>
+                            <h3 class="text-2xl font-bold text-white mt-1 mb-2">Breaking 1,000 MPG</h3>
+                            <img src="./images/history/old_car.jpg" alt="Early team vehicle" class="rounded-3xl w-full h-auto mb-4">
+                            <p class="text-gray-300">A milestone achievement as the team's vehicle officially broke the 1,000 MPG barrier at competition for the first time in team history.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <footer class="mt-12">
+            <div class="container mx-auto px-6 py-8"><div class="glass-panel rounded-4xl p-8 text-center text-gray-400"><p>&copy; 2025 University of Michigan Supermileage. All Rights Reserved.</p><p class="mt-1 text-sm">Ann Arbor, Michigan</p></div></div>
+        </footer>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navbar Slider Logic
+            const navLinksContainer = document.getElementById('nav-links');
+            const navSlider = document.getElementById('nav-slider');
+            const navLinks = navLinksContainer.querySelectorAll('a');
+            navLinks.forEach(link => { link.addEventListener('mouseenter', () => { navSlider.style.width = `${link.offsetWidth}px`; navSlider.style.left = `${link.offsetLeft}px`; navSlider.style.opacity = '1'; }); });
+            navLinksContainer.addEventListener('mouseleave', () => { navSlider.style.opacity = '0'; });
+
+            // Scroll Indicator
+            const scrollIndicator = document.getElementById('scroll-indicator');
+            if(scrollIndicator) { window.addEventListener('scroll', () => { scrollIndicator.style.opacity = 1 - Math.min(window.scrollY / 100, 1); }); }
+            
+            // 3D Holo Card Logic
+            const holoCards = document.querySelectorAll('.holo-card');
+            holoCards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const { width, height } = rect;
+                    const rotateY = 20 * ((x - width / 2) / (width / 2));
+                    const rotateX = -20 * ((y - height / 2) / (height / 2));
+                    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                });
+            });
+
+            // Timeline Animation Logic
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            const timelineEntries = document.querySelectorAll('.timeline-entry');
+            timelineEntries.forEach((entry, index) => {
+                entry.style.transitionDelay = `${index * 200}ms`;
+                observer.observe(entry);
+            });
+        });
+    </script>
+</body>
+</html>
