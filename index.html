@@ -26,6 +26,9 @@
                     borderRadius: {
                         '4xl': '2.5rem',
                     },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, rgba(255, 203, 10, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 203, 10, 0.05) 1px, transparent 1px)",
+                    }
                 }
             }
         }
@@ -118,6 +121,32 @@
         .neon-white-text { color: #F0F0F0; text-shadow: 0 0 4px #F0F0F0, 0 0 8px #F0F0F0; }
         .neon-blue-text { color: #00BFFF; text-shadow: 0 0 4px #00BFFF, 0 0 8px #00BFFF; }
 
+        /* New split-color text class */
+        .split-color-text {
+            position: relative;
+            color: transparent; 
+        }
+        .split-color-text::before,
+        .split-color-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .split-color-text::before { 
+            color: #00BFFF;
+            text-shadow: 0 0 4px #00BFFF, 0 0 8px #00BFFF;
+            clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+        }
+        .split-color-text::after { 
+            color: #FFCB0A;
+            text-shadow: 0 0 4px #FFCB0A, 0 0 8px #FFCB0A;
+            clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+        }
+
+
         .aurora-shape { position: absolute; border-radius: 100%; filter: blur(120px); opacity: 0.5; }
         #aurora-1 { width: 800px; height: 600px; top: -20%; left: -10%; background: rgba(0, 39, 76, 0.2); animation: move-aurora 25s infinite alternate ease-in-out; }
         #aurora-2 { width: 900px; height: 700px; bottom: -30%; right: -20%; background: rgba(0, 80, 150, 0.2); animation: move-aurora 30s infinite alternate ease-in-out; } 
@@ -130,7 +159,7 @@
         .card-container { perspective: 1000px; }
         .holo-card {
             transform-style: preserve-3d;
-            transition: transform 0.5s ease-out, opacity 0.3s ease-in-out;
+            transition: transform 0.2s ease-out; /* Slightly smoother transition */
         }
         .holo-card[data-modal-target]:hover { cursor: pointer; }
         .card-clone {
@@ -140,6 +169,22 @@
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
+        /* Outline Text Style */
+        .text-outline-maize {
+            -webkit-text-stroke: 3px rgba(255, 203, 10, 0.4); /* Thicker and more visible */
+            color: transparent;
+            filter: drop-shadow(0 0 5px rgba(255, 203, 10, 0.3)); /* Added glow */
+        }
+
+        /* Subtle Pulse for Background Blob */
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.35; transform: scale(1.1); }
+        }
+        .animate-pulse-slow {
+            animation: pulse-glow 6s infinite ease-in-out;
+        }
+
         #scroll-indicator { 
             position: absolute; bottom: 6rem;
             z-index: 5; 
@@ -198,7 +243,7 @@
                     </div>
                     <div class="card-container reveal" style="transition-delay: 150ms;">
                         <div class="holo-card glass-panel p-8 rounded-4xl text-center flex flex-col justify-center items-center h-full">
-                            <div class="text-6xl font-extrabold neon-white-text counter" data-target="2">0</div>
+                            <div class="text-6xl font-extrabold split-color-text counter" data-target="2" data-text="0">0</div>
                             <div class="mt-2 text-xl font-semibold neon-white-text">POWERTRAINS</div>
                         </div>
                     </div>
@@ -215,27 +260,45 @@
             </div>
         </section>
         
-        <section id="fleet" class="py-20 sm:py-24">
+        <section id="fleet" class="py-24 sm:py-32 overflow-visible">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="text-4xl md:text-5xl font-extrabold neon-maize-text reveal">Our Fleet</h2>
-                <div class="mt-16 flex flex-col lg:flex-row gap-10">
-                    <div class="card-container reveal flex">
-                        <div class="holo-card glass-panel rounded-4xl flex flex-col h-full" data-modal-target="#modal-maple">
-                            <div class="h-2/3"><img src="https.../tH0XNn4.png" alt="Prototype Vehicle" class="w-full h-full object-cover"></div>
-                            <div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-3xl font-bold neon-maize-text">Maple</h3><p class="mt-2 text-gray-300 text-sm">Our prototype class vehicle, optimized for peak aerodynamic performance.</p></div>
+                
+                <div class="card-container reveal w-full max-w-6xl mx-auto">
+                    <div class="holo-card glass-panel rounded-4xl h-[600px] md:h-[700px] relative flex items-center justify-center bg-grid-pattern bg-[length:40px_40px]" data-modal-target="#modal-cedar">
+                        
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none" style="transform: translateZ(-60px);">
+                            <h2 class="text-[12rem] md:text-[18rem] font-extrabold text-outline-maize opacity-60 select-none tracking-tighter leading-none">CEDAR</h2>
                         </div>
-                    </div>
-                    <div class="card-container reveal flex" style="transition-delay: 150ms;">
-                        <div class="holo-card glass-panel rounded-4xl flex flex-col h-full" data-modal-target="#modal-magnolia">
-                             <div class="h-2/3"><img src="https.../L79pYlA.png" alt="Urban Concept Vehicle" class="w-full h-full object-cover"></div>
-                            <div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-3xl font-bold neon-maize-text">Magnolia</h3><p class="mt-2 text-gray-300 text-sm">Our urban concept car, designed with practical road features and peak efficiency.</p></div>
+
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-michigan-maize/20 rounded-full blur-[120px] pointer-events-none animate-pulse-slow" style="transform: translateZ(-20px);"></div>
+
+                        <div class="relative z-10 w-full h-full flex items-center justify-center p-8" style="transform: translateZ(40px);">
+                            <img src="https://i.imgur.com/your-third-vehicle-image.png" alt="Cedar Vehicle" class="w-full max-w-4xl h-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
                         </div>
-                    </div>
-                    <div class="card-container reveal flex" style="transition-delay: 300ms;">
-                        <div class="holo-card glass-panel rounded-4xl flex flex-col h-full" data-modal-target="#modal-cedar">
-                            <div class="h-2/3"><img src="https.../your-third-vehicle-image.png" alt="Third Vehicle" class="w-full h-full object-cover bg-gray-900"></div>
-                            <div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-3xl font-bold neon-maize-text">Cedar</h3><p class="mt-2 text-gray-300 text-sm">Our latest innovation, pushing the boundaries of sustainable mobility.</p></div>
+
+                        <div class="absolute inset-0 pointer-events-none z-20">
+                            <div class="absolute top-12 left-8 md:left-12 bg-black/60 backdrop-blur-md border-l-4 border-michigan-maize p-4 rounded-r-xl" style="transform: translateZ(80px);">
+                                <p class="text-gray-400 text-xs uppercase tracking-widest">Class</p>
+                                <p class="text-white font-bold text-xl">Urban Concept</p>
+                            </div>
+
+                            <div class="absolute bottom-12 left-8 md:left-12 bg-black/60 backdrop-blur-md border-l-4 border-electric-blue p-4 rounded-r-xl" style="transform: translateZ(80px);">
+                                <p class="text-gray-400 text-xs uppercase tracking-widest">Power</p>
+                                <p class="text-white font-bold text-xl">Battery Electric</p>
+                            </div>
+
+                            <div class="absolute top-12 right-8 md:right-12 bg-black/60 backdrop-blur-md border-r-4 border-michigan-maize p-4 rounded-l-xl text-right" style="transform: translateZ(80px);">
+                                <p class="text-gray-400 text-xs uppercase tracking-widest">Chassis</p>
+                                <p class="text-white font-bold text-xl">Carbon Monocoque</p>
+                            </div>
+
+                            <div class="absolute bottom-12 right-8 md:right-12" style="transform: translateZ(100px);">
+                                <div class="bg-michigan-maize text-dark-navy font-bold py-3 px-8 rounded-full shadow-[0_0_20px_rgba(255,203,10,0.4)] flex items-center gap-2">
+                                    Explore Cedar <span class="text-xl">&rarr;</span>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -261,8 +324,6 @@
         </footer>
     </main>
 
-    <div id="modal-maple" class="modal-overlay"><div class="glass-panel modal-content rounded-4xl p-8 lg:p-12"><span class="close-button">&times;</span><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"><div><img src="https://i.imgur.com/tH0XNn4.png" alt="Maple" class="rounded-3xl w-full h-auto"></div><div><h2 class="text-4xl font-bold neon-maize-text mb-6">Maple</h2><p class="text-lg text-gray-300">A deep dive into our prototype class vehicle. Maple is the culmination of years of aerodynamic research and lightweight material science. Its carbon fiber monocoque chassis provides exceptional rigidity at a fraction of the weight of traditional frames.</p></div></div></div></div>
-    <div id="modal-magnolia" class="modal-overlay"><div class="glass-panel modal-content rounded-4xl p-8 lg:p-12"><span class="close-button">&times;</span><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"><div><img src="https://i.imgur.com/L79pYlA.png" alt="Magnolia" class="rounded-3xl w-full h-auto"></div><div><h2 class="text-4xl font-bold neon-maize-text mb-6">Magnolia</h2><p class="text-lg text-gray-300">Exploring our urban concept car. Designed to meet practical road-going requirements like headlights and turn signals, Magnolia still achieves incredible fuel economy. Its design philosophy balances real-world usability with extreme efficiency.</p></div></div></div></div>
     <div id="modal-cedar" class="modal-overlay"><div class="glass-panel modal-content rounded-4xl p-8 lg:p-12"><span class="close-button">&times;</span><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"><div><img src="https://i.imgur.com/your-third-vehicle-image.png" alt="Cedar" class="rounded-3xl w-full h-auto bg-gray-800"></div><div><h2 class="text-4xl font-bold neon-maize-text mb-6">Cedar</h2><p class="text-lg text-gray-300">Cedar is our newest and first ever battery-electric urban concept vehicle, representing the culmination of our dedication to innovation, efficiency, and success in sustainable vehicle development. Cedar is structured around a robust and systematic development process. We conducted our first ever team-wide Systems Requirements Review to help us finalize our design requirements. In order to come up with our requirements we conducted research using six-sigma analysis, ran Matlab and Simulink simulations on road load, tractive forces and motor efficiencies, and built on feedback and lessons learned from  alumni, professors and industry professionals. Cedar will ultimately debut in the Shell Eco Marathon in spring 2026, followed by a world record attempt in 2027. 
 </p></div></div></div></div>
     
@@ -304,7 +365,7 @@
                 startFlicker();
             }
 
-            // Holographic Card Logic
+            // Holographic Card Logic with Reduced Sensitivity for Large Tiles
             const cards = document.querySelectorAll('.holo-card');
             cards.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
@@ -313,9 +374,12 @@
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
                     const { width, height } = rect;
-                    const rotateY = 25 * ((x - width / 2) / (width / 2));
-                    const rotateX = -25 * ((y - height / 2) / (height / 2));
-                    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+                    
+                    // Reduced sensitivity: Changed multiplier from 25 to 5 (Y) and 8 (X)
+                    const rotateY = 5 * ((x - width / 2) / (width / 2));
+                    const rotateX = -8 * ((y - height / 2) / (height / 2));
+                    
+                    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
                 });
                 card.addEventListener('mouseleave', () => {
                     if (card.classList.contains('is-animating')) return;
