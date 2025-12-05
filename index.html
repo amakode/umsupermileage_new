@@ -199,16 +199,16 @@
         /* --- BUTTON PULSE ANIMATION --- */
         @keyframes button-glow-pulse {
             0% {
-                box-shadow: 0 0 10px rgba(255, 203, 10, 0.4);
+                box-shadow: 0 0 10px rgba(0, 191, 255, 0.4);
                 transform: scale(1);
             }
             50% {
                 /* Stronger, wider glow */
-                box-shadow: 0 0 35px rgba(255, 203, 10, 0.9);
+                box-shadow: 0 0 35px rgba(0, 191, 255, 0.9);
                 transform: scale(1.05);
             }
             100% {
-                box-shadow: 0 0 10px rgba(255, 203, 10, 0.4);
+                box-shadow: 0 0 10px rgba(0, 191, 255, 0.4);
                 transform: scale(1);
             }
         }
@@ -322,12 +322,12 @@
                         </div>
 
                         <div class="absolute inset-0 pointer-events-none z-40">
-                            <div class="absolute top-12 left-8 md:left-12 bg-black/60 backdrop-blur-md border-l-4 border-michigan-maize p-4 rounded-r-xl" style="transform: translateZ(80px);">
+                            <div class="absolute top-12 left-8 md:left-12 bg-black/60 backdrop-blur-md border-l-4 border-michigan-maize p-4 rounded-r-xl text-left style="transform: translateZ(80px);">
                                 <p class="text-gray-400 text-xs uppercase tracking-widest">Class</p>
                                 <p class="text-white font-bold text-xl">Urban Concept</p>
                             </div>
 
-                            <div class="absolute bottom-12 left-8 md:left-12 bg-black/60 backdrop-blur-md border-l-4 border-electric-blue p-4 rounded-r-xl" style="transform: translateZ(80px);">
+                            <div class="absolute bottom-12 left-8 md:left-12 bg-black/60 backdrop-blur-md border-l-4 border-electric-blue p-4 rounded-r-xl text-left" style="transform: translateZ(80px);">
                                 <p class="text-gray-400 text-xs uppercase tracking-widest">Power</p>
                                 <p class="text-white font-bold text-xl">Battery Electric</p>
                             </div>
@@ -338,7 +338,7 @@
                             </div>
 
                             <div class="absolute bottom-12 right-8 md:right-12" style="transform: translateZ(100px);">
-                                <div class="bg-michigan-maize text-dark-navy font-bold py-3 px-8 rounded-full shadow-[0_0_20px_rgba(255,203,10,0.4)] flex items-center gap-2 pointer-events-auto cursor-pointer pulse-strong">
+                                <div class="bg-electric-blue text-dark-navy font-bold py-3 px-8 rounded-full shadow-[0_0_20px_rgba(0,191,255,0.4)] flex items-center gap-2 pointer-events-auto cursor-pointer pulse-strong">
                                     Explore Cedar <span class="text-xl">&rarr;</span>
                                 </div>
                             </div>
@@ -354,7 +354,7 @@
                 <div class="card-container reveal">
                     <div class="holo-card glass-panel rounded-4xl p-10 md:p-16 text-center">
                         <h2 class="text-4xl md:text-5xl font-extrabold neon-white-text">Become Part of the Legacy</h2>
-                        <p class="mt-4 max-w-3xl mx-auto text-gray-300">Whether you are a student eager to apply your skills, or a company looking to sponsor the future of automotive innovation, we have a place for you.</p>
+                        <p class="mt-4 max-w-3xl mx-auto text-gray-300">Whether you are a student eager to apply your skills, or an organization looking to sponsor the future of automotive innovation, we have a place for you.</p>
                         <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
                             <a href="#" class="bg-michigan-maize text-dark-navy font-bold py-3 px-8 rounded-lg text-lg tracking-wide hover:bg-opacity-90 transition-all duration-300">For Students</a>
                             <a href="#" class="bg-transparent border-2 border-michigan-maize text-michigan-maize font-bold py-3 px-8 rounded-lg text-lg tracking-wide hover:bg-michigan-maize hover:text-dark-navy transition-all duration-300">For Sponsors</a>
@@ -369,7 +369,7 @@
         </footer>
     </main>
 
-    <div id="modal-cedar" class="modal-overlay"><div class="glass-panel modal-content rounded-4xl p-8 lg:p-12"><span class="close-button">&times;</span><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"><div><img src="Layer 2.png" alt="Cedar" class="rounded-3xl w-full h-auto bg-gray-800"></div><div><h2 class="text-4xl font-bold neon-maize-text mb-6">Cedar</h2><p class="text-lg text-gray-300">Cedar is our newest and first ever battery-electric urban concept vehicle, representing the culmination of our dedication to innovation, efficiency, and success in sustainable vehicle development. Cedar is structured around a robust and systematic development process. We conducted our first ever team-wide Systems Requirements Review to help us finalize our design requirements. In order to come up with our requirements we conducted research using six-sigma analysis, ran Matlab and Simulink simulations on road load, tractive forces and motor efficiencies, and built on feedback and lessons learned from  alumni, professors and industry professionals. Cedar will ultimately debut in the Shell Eco Marathon in spring 2026, followed by a world record attempt in 2027. 
+    <div id="modal-cedar" class="modal-overlay"><div class="glass-panel modal-content rounded-4xl p-8 lg:p-12"><span class="close-button">&times;</span><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"><div><img src="Layer 2.png" alt="Cedar" class="rounded-3xl w-full h-auto bg-gray-800"></div><div><h2 class="text-4xl font-bold neon-maize-text mb-6">Cedar</h2><p class="text-lg text-gray-300">Cedar is our newest and first ever battery-electric urban concept vehicle, representing the culmination of our sustainable vehicle development. We conducted our first ever team-wide Systems Requirements Review to help us finalize our design requirements. In order to come up with our requirements we conducted research using six-sigma analysis, ran Matlab and Simulink simulations on road load, tractive forces and motor efficiencies, and built on feedback and lessons learned from  alumni, professors and industry professionals. Cedar will ultimately debut in the Shell Eco Marathon in spring 2026, followed by a world record attempt in 2027. 
 </p></div></div></div></div>
     
     <script>
