@@ -51,7 +51,7 @@
         #main-content {
             position: relative;
             z-index: 2;
-            background-color: rgba(1, 13, 26, 0.6);
+            background-color: rgba(1, 13, 26, 0.4);
         }
 
         #navbar { top: 2.5rem; }
@@ -72,10 +72,11 @@
         .glass-panel::before {
             content: '';
             position: absolute; inset: 0; border-radius: inherit; padding: 1px;
-            background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+            background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3));
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
+            pointer-events: none;
         }
 
         .glass-panel-light {
@@ -95,24 +96,25 @@
         .hero-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
         #scroll-indicator { position: absolute; bottom: 6rem; z-index: 5; transition: opacity 0.5s; }
         #scroll-indicator svg { filter: drop-shadow(0 0 8px #FFCB0A); }
-        #scroll-indicator.hidden { opacity: 0; }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
         .animate-bounce-slow { animation: bounce 2s infinite; }
 
         .card-container { perspective: 1000px; }
+        
+        /* Updated to match index.html timing */
         .holo-card {
             height: 450px;
             transform-style: preserve-3d;
-            transition: transform 0.5s ease-out, opacity 0.3s ease-in-out;
+            transition: transform 0.1s ease-out; /* Matches index.html snap */
             cursor: pointer;
             overflow: hidden;
         }
         
-        /* Waterfall Animation Styles */
+        /* Consistent Animation Styles */
         .waterfall-item {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(30px); /* Matches reveal class in index */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
         .waterfall-container.visible .waterfall-item {
             opacity: 1;
@@ -136,7 +138,7 @@
                 <a href="about.html" class="px-5 py-2 z-10 transition-colors">About</a>
                 <a href="team.html" class="px-5 py-2 z-10 transition-colors">Team</a>
                 <a href="sponsors.html" class="px-5 py-2 z-10 transition-colors">Sponsors</a>
-                <a href="index.html#fleet" class="px-5 py-2 z-10 transition-colors">Fleet</a>
+                <a href="history.html" class="px-5 py-2 z-10 transition-colors">History</a>
             </nav>
         </div>
     </header>
@@ -144,8 +146,10 @@
     <main id="main-content">
         <section class="hero-section">
             <h1 class="text-6xl md:text-8xl font-extrabold neon-white-text text-center">Meet the Team</h1>
-            <p class="mt-4 max-w-2xl mx-auto text-gray-300 text-lg md:text-xl text-center">The dedicated students leading the charge.</p>
-            <div id="scroll-indicator"><svg class="w-10 h-10 text-white/70 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></div>
+            <p class="mt-4 max-w-2xl mx-auto text-gray-300 text-lg md:text-xl text-center">Our student board members.</p>
+            <div id="scroll-indicator">
+                <svg class="w-10 h-10 text-white/70 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </div>
         </section>
 
         <section id="team" class="py-24 sm:py-32">
@@ -154,13 +158,37 @@
                     <h2 class="text-5xl font-bold neon-maize-text mb-12">Executive Board</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div class="card-container waterfall-item">
-                            <div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/dallas.jpg" alt="Headshot" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Dallas Quaresma</h3><p class="text-lg text-gray-200">Project Manager</p></div></div>
+                            <div class="holo-card glass-panel rounded-4xl flex flex-col">
+                                <div class="h-2/3 overflow-hidden rounded-t-4xl">
+                                    <img src="headshots/dallas.jpg" alt="Dallas Quaresma" class="w-full h-full object-cover">
+                                </div>
+                                <div class="h-1/3 p-4 flex flex-col justify-center">
+                                    <h3 class="text-2xl font-bold text-white">Dallas Quaresma</h3>
+                                    <p class="text-lg text-gray-200">Project Manager</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-container waterfall-item">
-                             <div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/harry.jpg" alt="Headshot" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Harrison Keller</h3><p class="text-lg text-gray-200">Chief Engineer</p></div></div>
+                             <div class="holo-card glass-panel rounded-4xl flex flex-col">
+                                <div class="h-2/3 overflow-hidden rounded-t-4xl">
+                                    <img src="headshots/harry.jpg" alt="Harrison Keller" class="w-full h-full object-cover">
+                                </div>
+                                <div class="h-1/3 p-4 flex flex-col justify-center">
+                                    <h3 class="text-2xl font-bold text-white">Harrison Keller</h3>
+                                    <p class="text-lg text-gray-200">Chief Engineer</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-container waterfall-item">
-                             <div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/Varun24-25.jpg" alt="Headshot" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Varun Kaushik</h3><p class="text-lg text-gray-200">Business Lead</p></div></div>
+                             <div class="holo-card glass-panel rounded-4xl flex flex-col">
+                                <div class="h-2/3 overflow-hidden rounded-t-4xl">
+                                    <img src="headshots/Varun24-25.jpg" alt="Varun Kaushik" class="w-full h-full object-cover">
+                                </div>
+                                <div class="h-1/3 p-4 flex flex-col justify-center">
+                                    <h3 class="text-2xl font-bold text-white">Varun Kaushik</h3>
+                                    <p class="text-lg text-gray-200">Business Lead</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -168,28 +196,109 @@
                 <div class="text-center waterfall-container">
                     <h2 class="text-5xl font-bold neon-maize-text mb-12">Subsystems Leads</h2>
                     <div class="flex flex-wrap justify-center -mx-4">
-                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/caleb.jpg" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Caleb Albright</h3><p class="text-lg text-gray-200">Aerodynamics Lead</p></div></div></div></div>
-                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/simon.jpg" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Simon Gelb</h3><p class="text-lg text-gray-200">Electrical Systems Co-Lead</p></div></div></div></div>
-                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/vishal.jpg" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Vishal Vijayarajan</h3><p class="text-lg text-gray-200">Electrical Systems Co-Lead</p></div></div></div></div>
-                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/jasmin.jpg" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Jasmine Beltrame</h3><p class="text-lg text-gray-200">Mechanical Systems Lead</p></div></div></div></div>
-                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item"><div class="card-container"><div class="holo-card glass-panel rounded-4xl flex flex-col"><div class="h-2/3"><img src="headshots/placeholder.png" class="w-full h-full object-cover"></div><div class="h-1/3 p-4 flex flex-col justify-center"><h3 class="text-2xl font-bold text-white">Reese Long</h3><p class="text-lg text-gray-200">Powertrain Lead</p></div></div></div></div>
+                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item">
+                            <div class="card-container">
+                                <div class="holo-card glass-panel rounded-4xl flex flex-col">
+                                    <div class="h-2/3 overflow-hidden rounded-t-4xl">
+                                        <img src="headshots/caleb.jpg" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="h-1/3 p-4 flex flex-col justify-center">
+                                        <h3 class="text-2xl font-bold text-white">Caleb Albright</h3>
+                                        <p class="text-lg text-gray-200">Aerodynamics Lead</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item">
+                            <div class="card-container">
+                                <div class="holo-card glass-panel rounded-4xl flex flex-col">
+                                    <div class="h-2/3 overflow-hidden rounded-t-4xl">
+                                        <img src="headshots/simon.jpg" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="h-1/3 p-4 flex flex-col justify-center">
+                                        <h3 class="text-2xl font-bold text-white">Simon Gelb</h3>
+                                        <p class="text-lg text-gray-200">Electrical Systems Co-Lead</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item">
+                            <div class="card-container">
+                                <div class="holo-card glass-panel rounded-4xl flex flex-col">
+                                    <div class="h-2/3 overflow-hidden rounded-t-4xl">
+                                        <img src="headshots/vishal.jpg" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="h-1/3 p-4 flex flex-col justify-center">
+                                        <h3 class="text-2xl font-bold text-white">Vishal Vijayarajan</h3>
+                                        <p class="text-lg text-gray-200">Electrical Systems Co-Lead</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item">
+                            <div class="card-container">
+                                <div class="holo-card glass-panel rounded-4xl flex flex-col">
+                                    <div class="h-2/3 overflow-hidden rounded-t-4xl">
+                                        <img src="headshots/jasmin.jpg" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="h-1/3 p-4 flex flex-col justify-center">
+                                        <h3 class="text-2xl font-bold text-white">Jasmine Beltrame</h3>
+                                        <p class="text-lg text-gray-200">Mechanical Systems Lead</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8 waterfall-item">
+                            <div class="card-container">
+                                <div class="holo-card glass-panel rounded-4xl flex flex-col">
+                                    <div class="h-2/3 overflow-hidden rounded-t-4xl">
+                                        <img src="headshots/placeholder.png" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="h-1/3 p-4 flex flex-col justify-center">
+                                        <h3 class="text-2xl font-bold text-white">Reese Long</h3>
+                                        <p class="text-lg text-gray-200">Powertrain Lead</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <footer class="mt-12">
-            <div class="container mx-auto px-6 py-8"><div class="glass-panel rounded-4xl p-8 text-center text-gray-400"><p>&copy; 2025 University of Michigan Supermileage. All Rights Reserved.</p><p class="mt-1 text-sm">Ann Arbor, Michigan</p></div></div>
+         <footer class="mt-12">
+            <div class="container mx-auto px-6 py-8"><div class="glass-panel rounded-4xl p-8 text-center text-gray-400"><p>&copy; University of Michigan Supermileage.</p><p class="mt-1 text-sm">Ann Arbor, Michigan</p></div></div>
         </footer>
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Navbar, Scroll Indicator, etc.
-            const navLinksContainer = document.getElementById('nav-links');const navSlider = document.getElementById('nav-slider');const navLinks = navLinksContainer.querySelectorAll('a');navLinks.forEach(link => { link.addEventListener('mouseenter', () => { navSlider.style.width = `${link.offsetWidth}px`; navSlider.style.left = `${link.offsetLeft}px`; navSlider.style.opacity = '1'; }); });navLinksContainer.addEventListener('mouseleave', () => { navSlider.style.opacity = '0'; });
-            const scrollIndicator = document.getElementById('scroll-indicator');if(scrollIndicator) { window.addEventListener('scroll', () => { scrollIndicator.style.opacity = 1 - Math.min(window.scrollY / 100, 1); }); }
+            // Navbar Slider Logic (Identical to Index)
+            const navLinksContainer = document.getElementById('nav-links');
+            const navSlider = document.getElementById('nav-slider');
+            const navLinks = navLinksContainer.querySelectorAll('a');
+            
+            navLinks.forEach(link => { 
+                link.addEventListener('mouseenter', () => { 
+                    navSlider.style.width = `${link.offsetWidth}px`; 
+                    navSlider.style.left = `${link.offsetLeft}px`; 
+                    navSlider.style.opacity = '1'; 
+                }); 
+            });
+            
+            navLinksContainer.addEventListener('mouseleave', () => { 
+                navSlider.style.opacity = '0'; 
+            });
 
-            // Holographic Card Logic
+            // Scroll Indicator (Identical to Index)
+            const scrollIndicator = document.getElementById('scroll-indicator');
+            if(scrollIndicator) { 
+                window.addEventListener('scroll', () => { 
+                    scrollIndicator.style.opacity = 1 - Math.min(window.scrollY / 100, 1); 
+                }); 
+            }
+
+            // Holographic Card Logic (Matched exactly to Index.html math)
             const cards = document.querySelectorAll('.holo-card');
             cards.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
@@ -197,16 +306,19 @@
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
                     const { width, height } = rect;
-                    const rotateY = 25 * ((x - width / 2) / (width / 2));
-                    const rotateX = -25 * ((y - height / 2) / (height / 2));
-                    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+                    
+                    // Index.html logic: 5 and -8. 
+                    // Previous Team logic was 25 (too extreme)
+                    const rotateY = 5 * ((x - width / 2) / (width / 2));
+                    const rotateX = -8 * ((y - height / 2) / (height / 2));
+                    
+                    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
                 });
+                
                 card.addEventListener('mouseleave', () => {
                     card.style.transform = 'rotateX(0) rotateY(0) scale3d(1, 1, 1)';
                 });
             });
-
-            // Modal JavaScript removed
 
             // Waterfall Animation Logic
             const observer = new IntersectionObserver((entries) => {
@@ -221,6 +333,7 @@
             waterfallContainers.forEach(container => {
                 const items = container.querySelectorAll('.waterfall-item');
                 items.forEach((item, index) => {
+                    // Stagger delay
                     item.style.transitionDelay = `${index * 150}ms`;
                 });
                 observer.observe(container);

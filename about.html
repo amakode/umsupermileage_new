@@ -51,7 +51,8 @@
         #main-content {
             position: relative;
             z-index: 2;
-            background-color: rgba(1, 13, 26, 0.6);
+            /* Updated to 0.4 opacity as requested */
+            background-color: rgba(1, 13, 26, 0.4);
         }
 
         #navbar { 
@@ -83,6 +84,7 @@
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
+            pointer-events: none;
         }
 
         .glass-panel-light {
@@ -113,11 +115,10 @@
             transition: opacity 0.5s;
         }
         #scroll-indicator svg { filter: drop-shadow(0 0 8px #FFCB0A); }
-        #scroll-indicator.hidden { opacity: 0; }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
         .animate-bounce-slow { animation: bounce 2s infinite; }
 
-        /* --- New Slideshow Styles --- */
+        /* --- Slideshow Styles --- */
         #slideshow-container {
             height: 600px;
             max-width: 1000px;
@@ -128,7 +129,7 @@
             inset: 0;
             opacity: 0;
             transition: opacity 1.2s ease-in-out;
-            background-color: rgba(0,0,0,0.3); /* Fallback */
+            background-color: rgba(0,0,0,0.3);
         }
         .slide-item img {
             width: 100%;
@@ -202,7 +203,7 @@
                 <a href="about.html" class="px-5 py-2 z-10 transition-colors">About</a>
                 <a href="team.html" class="px-5 py-2 z-10 transition-colors">Team</a>
                 <a href="sponsors.html" class="px-5 py-2 z-10 transition-colors">Sponsors</a>
-                <a href="index.html#fleet" class="px-5 py-2 z-10 transition-colors">Fleet</a>
+                <a href="history.html" class="px-5 py-2 z-10 transition-colors">History</a>
             </nav>
         </div>
     </header>
@@ -218,8 +219,6 @@
 
         <section id="gallery" class="py-24 sm:py-32">
             <div class="container mx-auto px-6 text-center">
-                <!--<h2 class="text-5xl font-bold neon-maize-text mb-12">Our Journey in Pictures</h2>-->
-                
                 <div id="slideshow-container" class="glass-panel rounded-4xl relative">
                     <div class="slide-item active"><img src="carousel_imgs/1.jpg" alt="Carousel Image 1"></div>
                     <div class="slide-item"><img src="carousel_imgs/2.jpg" alt="Carousel Image 2"></div>
@@ -237,8 +236,7 @@
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </button>
 
-                    <div id="slide-dots">
-                        </div>
+                    <div id="slide-dots"></div>
                 </div>
             </div>
         </section>
@@ -255,7 +253,7 @@
         </section>
 
         <footer class="mt-12">
-            <div class="container mx-auto px-6 py-8"><div class="glass-panel rounded-4xl p-8 text-center text-gray-400"><p>&copy; 2025 University of Michigan Supermileage. All Rights Reserved.</p><p class="mt-1 text-sm">Ann Arbor, Michigan</p></div></div>
+            <div class="container mx-auto px-6 py-8"><div class="glass-panel rounded-4xl p-8 text-center text-gray-400"><p>&copy; University of Michigan Supermileage.</p><p class="mt-1 text-sm">Ann Arbor, Michigan</p></div></div>
         </footer>
     </main>
 
@@ -265,14 +263,28 @@
             const navLinksContainer = document.getElementById('nav-links');
             const navSlider = document.getElementById('nav-slider');
             const navLinks = navLinksContainer.querySelectorAll('a');
-            navLinks.forEach(link => { link.addEventListener('mouseenter', () => { navSlider.style.width = `${link.offsetWidth}px`; navSlider.style.left = `${link.offsetLeft}px`; navSlider.style.opacity = '1'; }); });
-            navLinksContainer.addEventListener('mouseleave', () => { navSlider.style.opacity = '0'; });
+            
+            navLinks.forEach(link => { 
+                link.addEventListener('mouseenter', () => { 
+                    navSlider.style.width = `${link.offsetWidth}px`; 
+                    navSlider.style.left = `${link.offsetLeft}px`; 
+                    navSlider.style.opacity = '1'; 
+                }); 
+            });
+            
+            navLinksContainer.addEventListener('mouseleave', () => { 
+                navSlider.style.opacity = '0'; 
+            });
 
             // Scroll Indicator
             const scrollIndicator = document.getElementById('scroll-indicator');
-            if(scrollIndicator) { window.addEventListener('scroll', () => { scrollIndicator.style.opacity = 1 - Math.min(window.scrollY / 100, 1); }); }
+            if(scrollIndicator) { 
+                window.addEventListener('scroll', () => { 
+                    scrollIndicator.style.opacity = 1 - Math.min(window.scrollY / 100, 1); 
+                }); 
+            }
 
-            // --- New Slideshow Logic ---
+            // Slideshow Logic
             const slides = document.querySelectorAll('.slide-item');
             const dotsContainer = document.getElementById('slide-dots');
             const prevButton = document.getElementById('prev-slide');

@@ -51,11 +51,12 @@
         #main-content {
             position: relative;
             z-index: 2;
-            background-color: rgba(1, 13, 26, 0.6); /* Subpage dark overlay */
+            /* Standardized opacity to 0.4 */
+            background-color: rgba(1, 13, 26, 0.4);
         }
 
         #navbar { top: 2.5rem; }
-        #nav-content { max-width: 800px; margin: 0 auto; position: relative; }
+        #nav-content { max-width: 700px; margin: 0 auto; position: relative; }
         #nav-slider {
             position: absolute; height: 75%; top: 12.5%;
             background-color: rgba(255, 255, 255, 0.15);
@@ -77,6 +78,7 @@
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
+            pointer-events: none;
         }
 
         .glass-panel-light {
@@ -99,7 +101,7 @@
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
         .animate-bounce-slow { animation: bounce 2s infinite; }
 
-        /* --- New Timeline Styles --- */
+        /* --- Timeline Styles --- */
         .timeline-container {
             position: relative;
             max-width: 1000px;
@@ -133,7 +135,7 @@
         .timeline-left { left: 0; padding-right: 70px; }
         .timeline-right { left: 50%; padding-left: 70px; }
 
-        /* New Connector: Node */
+        /* Connector: Node */
         .timeline-node {
             position: absolute;
             top: 32px;
@@ -152,7 +154,7 @@
             left: -9px;
         }
 
-        /* New Connector: Laser Line */
+        /* Connector: Laser Line */
         .timeline-node::after {
             content: '';
             position: absolute;
@@ -172,9 +174,12 @@
         }
         
         .card-container { perspective: 1000px; }
+        
+        /* Standardized Holo Card Timing */
         .holo-card {
             transform-style: preserve-3d;
-            transition: transform 0.5s ease-out;
+            transition: transform 0.1s ease-out;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -193,9 +198,8 @@
                 <a href="index.html" class="px-5 py-2 z-10 transition-colors">Home</a>
                 <a href="about.html" class="px-5 py-2 z-10 transition-colors">About</a>
                 <a href="team.html" class="px-5 py-2 z-10 transition-colors">Team</a>
-                <a href="history.html" class="px-5 py-2 z-10 transition-colors">History</a>
                 <a href="sponsors.html" class="px-5 py-2 z-10 transition-colors">Sponsors</a>
-                <a href="index.html#fleet" class="px-5 py-2 z-10 transition-colors">Fleet</a>
+                <a href="history.html" class="px-5 py-2 z-10 transition-colors">History</a>
             </nav>
         </div>
     </header>
@@ -203,7 +207,7 @@
     <main id="main-content">
         <section class="hero-section">
             <h1 class="text-6xl md:text-8xl font-extrabold neon-white-text text-center">Our Journey</h1>
-            <p class="mt-4 max-w-2xl mx-auto text-gray-300 text-lg md:text-xl text-center">A legacy of innovation, milestones, and record-breaking efficiency.</p>
+            <p class="mt-4 max-w-2xl mx-auto text-gray-300 text-lg md:text-xl text-center">A legacy of innovation.</p>
             <div id="scroll-indicator">
                 <svg class="w-10 h-10 text-white/70 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
             </div>
@@ -216,46 +220,22 @@
                     <div class="timeline-node"></div>
                     <div class="card-container">
                         <div class="holo-card glass-panel rounded-4xl p-6">
-                            <span class="text-lg font-bold neon-maize-text">2023</span>
-                            <h3 class="text-2xl font-bold text-white mt-1 mb-2">First Place National Title</h3>
-                            <img src="./images/history/comp_2023.jpg" alt="Team at 2023 competition" class="rounded-3xl w-full h-auto mb-4">
-                            <p class="text-gray-300">Our prototype vehicle, Ventus, achieved an astounding 3,587 MPG at the Shell Eco-Marathon, securing the 1st place title in North America.</p>
+                            <span class="text-lg font-bold neon-maize-text">year</span>
+                            <h3 class="text-2xl font-bold text-white mt-1 mb-2">title</h3>
+                            <img src="carousel_imgs/2.jpg" alt="Team at 2023 competition" class="rounded-3xl w-full h-auto mb-4">
+                            <p class="text-gray-300">text</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="timeline-entry timeline-right">
                     <div class="timeline-node"></div>
-                     <div class="card-container">
+                    <div class="card-container">
                         <div class="holo-card glass-panel rounded-4xl p-6">
-                            <span class="text-lg font-bold neon-maize-text">2021</span>
-                            <h3 class="text-2xl font-bold text-white mt-1 mb-2">A New Era: Aurum</h3>
-                            <img src="./images/history/aurum_cad.jpg" alt="CAD model of Aurum" class="rounded-3xl w-full h-auto mb-4">
-                            <p class="text-gray-300">The team unveiled Aurum, our first-ever Urban Concept vehicle, designed with practical road features while still pushing the limits of fuel efficiency.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-entry timeline-left">
-                    <div class="timeline-node"></div>
-                     <div class="card-container">
-                        <div class="holo-card glass-panel rounded-4xl p-6">
-                            <span class="text-lg font-bold neon-maize-text">2018</span>
-                            <h3 class="text-2xl font-bold text-white mt-1 mb-2">Carbon Fiber Innovation</h3>
-                            <img src="./images/history/composites.jpg" alt="Team working on composites" class="rounded-3xl w-full h-auto mb-4">
-                            <p class="text-gray-300">The team successfully designed and manufactured its first full carbon-fiber monocoque chassis, dramatically reducing vehicle weight and setting a new internal standard.</p>
-                        </div>
-                    </div>
-                </div>
-
-                 <div class="timeline-entry timeline-right">
-                    <div class="timeline-node"></div>
-                     <div class="card-container">
-                        <div class="holo-card glass-panel rounded-4xl p-6">
-                            <span class="text-lg font-bold neon-maize-text">2015</span>
-                            <h3 class="text-2xl font-bold text-white mt-1 mb-2">Breaking 1,000 MPG</h3>
-                            <img src="./images/history/old_car.jpg" alt="Early team vehicle" class="rounded-3xl w-full h-auto mb-4">
-                            <p class="text-gray-300">A milestone achievement as the team's vehicle officially broke the 1,000 MPG barrier at competition for the first time in team history.</p>
+                            <span class="text-lg font-bold neon-maize-text">year</span>
+                            <h3 class="text-2xl font-bold text-white mt-1 mb-2">title</h3>
+                            <img src="carousel_imgs/2.jpg" alt="Team at 2023 competition" class="rounded-3xl w-full h-auto mb-4">
+                            <p class="text-gray-300">text</p>
                         </div>
                     </div>
                 </div>
@@ -263,8 +243,8 @@
             </div>
         </section>
 
-        <footer class="mt-12">
-            <div class="container mx-auto px-6 py-8"><div class="glass-panel rounded-4xl p-8 text-center text-gray-400"><p>&copy; 2025 University of Michigan Supermileage. All Rights Reserved.</p><p class="mt-1 text-sm">Ann Arbor, Michigan</p></div></div>
+         <footer class="mt-12">
+            <div class="container mx-auto px-6 py-8"><div class="glass-panel rounded-4xl p-8 text-center text-gray-400"><p>&copy; University of Michigan Supermileage.</p><p class="mt-1 text-sm">Ann Arbor, Michigan</p></div></div>
         </footer>
     </main>
 
@@ -281,7 +261,7 @@
             const scrollIndicator = document.getElementById('scroll-indicator');
             if(scrollIndicator) { window.addEventListener('scroll', () => { scrollIndicator.style.opacity = 1 - Math.min(window.scrollY / 100, 1); }); }
             
-            // 3D Holo Card Logic
+            // Holographic Card Logic (Standardized Math)
             const holoCards = document.querySelectorAll('.holo-card');
             holoCards.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
@@ -289,9 +269,10 @@
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
                     const { width, height } = rect;
-                    const rotateY = 20 * ((x - width / 2) / (width / 2));
-                    const rotateX = -20 * ((y - height / 2) / (height / 2));
-                    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+                    // Standardized: 5 and -8 (from 20/-20)
+                    const rotateY = 5 * ((x - width / 2) / (width / 2));
+                    const rotateX = -8 * ((y - height / 2) / (height / 2));
+                    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
                 });
                 card.addEventListener('mouseleave', () => {
                     card.style.transform = 'rotateX(0) rotateY(0) scale3d(1, 1, 1)';
