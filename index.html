@@ -17,7 +17,7 @@
                     colors: {
                         'michigan-maize': '#FFCB0A',
                         'michigan-blue': '#00274C',
-                        'dark-navy': '#010d1a',
+                        'dark-navy': '#000000', /* Pure Black */
                         'electric-blue': '#00BFFF', 
                     },
                     fontFamily: {
@@ -35,22 +35,58 @@
     </script>
     
     <style>
+        /* --- CORE LAYOUT & BACKGROUND LOGIC --- */
         body {
-            background-color: #010d1a;
+            background-color: #000000; /* Pure Black */
             color: #f0f0f0;
             font-family: 'Manrope', sans-serif;
             overflow-x: hidden;
-            background-image: url('zoomed_out.png');
+            
+            /* Desktop Default */
+            background-image: url('zoomed_out.png'); 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            background-repeat: no-repeat;
         }
+
+        /* Mobile / Portrait Override */
+        @media (max-width: 768px), (orientation: portrait) {
+            body {
+                /* STACKED BACKGROUNDS:
+                   1. The Gradient (Top layer): Fades from Transparent to Solid Black to smooth the image edge.
+                   2. The Image (Bottom layer): Your mobile_bg.png
+                */
+                background-image: 
+                    linear-gradient(to bottom, 
+                        rgba(0,0,0,0) 50%,    /* Top half is clear for cars */
+                        rgba(0,0,0,0.8) 80%,  /* Starts getting dark */
+                        #000000 100%          /* Solid black at bottom */
+                    ),
+                    url('mobile_bg.png');
+                
+                /* Size both layers to fit width (100%) and auto height */
+                background-size: 100% auto, 100% auto; 
+                background-position: top center, top center;
+                background-attachment: scroll;
+                background-repeat: no-repeat;
+                min-height: 100vh;
+            }
+            
+            /* Hide the aurora on mobile to keep the background image clean */
+            #aurora-background {
+                display: none !important;
+            }
+        }
+
         body.modal-open { overflow: hidden; }
         
+        /* --- BACKGROUND EFFECTS --- */
         #aurora-background { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             z-index: 1;
-            overflow: hidden; 
+            overflow: hidden;
+            pointer-events: none;
         }
 
         #main-content {
@@ -60,19 +96,21 @@
         }
         
         .hero-spacer {
-            height: 100vh;
+            min-height: 100vh;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
+            padding-top: 20vh;
         }
 
+        /* --- ANIMATIONS --- */
         #hero-logo {
-            width: auto; max-width: 35%; min-width: 300px; height: auto;
-            margin-top: 22vh;
+            width: 80%; max-width: 500px; height: auto;
             transition: opacity 0.05s ease-in-out;
             animation: neon-flicker 1.5s infinite linear;
+            will-change: opacity;
         }
 
         @keyframes neon-flicker {
@@ -82,13 +120,31 @@
             70% { opacity: 1; } 70.2% { opacity: 0.3; } 70.4% { opacity: 1; } 70.6% { opacity: 0.4; } 70.8% { opacity: 1; }
         }
 
-        #navbar { top: 2.5rem; }
+        /* --- NAVBAR & GLASSMORPHISM --- */
+        #navbar { 
+            top: 1.5rem; 
+            width: 100%; 
+            padding: 0 1rem; 
+            z-index: 50; 
+        }
         #nav-content { max-width: 700px; margin: 0 auto; position: relative; }
+        
+        /* Nav Slider */
         #nav-slider {
-            position: absolute; height: 75%; top: 12.5%;
+            position: absolute; height: 80%; top: 10%;
             background-color: rgba(255, 255, 255, 0.15);
-            border-radius: 9999px; z-index: -1;
+            border-radius: 9999px; 
+            z-index: 0; /* Sits below text, above glass panel */
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); opacity: 0;
+            display: none; 
+            pointer-events: none;
+        }
+        @media (min-width: 768px) { #nav-slider { display: block; } }
+        
+        /* Navbar Links */
+        #nav-links a {
+            position: relative;
+            z-index: 10; /* Ensures text is clickable over slider */
         }
         
         .glass-panel {
@@ -96,7 +152,6 @@
             background: rgba(30, 30, 30, 0.3);
             backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
             box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
-            overflow: hidden; 
         }
         .glass-panel::before {
             content: '';
@@ -111,20 +166,25 @@
         }
 
         .glass-panel-light {
-            background: rgba(30, 30, 30, 0.2); 
+            background: rgba(30, 30, 30, 0.6); 
             backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
         }
 
+        /* --- TEXT & COLORS --- */
         .neon-maize-text { color: #FFCB0A; text-shadow: 0 0 4px #FFCB0A, 0 0 8px #FFCB0A; }
         .neon-white-text { color: #F0F0F0; text-shadow: 0 0 4px #F0F0F0, 0 0 8px #F0F0F0; }
         .neon-blue-text { color: #00BFFF; text-shadow: 0 0 4px #00BFFF, 0 0 8px #00BFFF; }
 
-        .aurora-shape { position: absolute; border-radius: 100%; filter: blur(120px); opacity: 0.5; }
+        .aurora-shape { 
+            position: absolute; border-radius: 100%; filter: blur(120px); opacity: 0.5; 
+            will-change: transform;
+        }
         #aurora-1 { width: 800px; height: 600px; top: -20%; left: -10%; background: rgba(0, 39, 76, 0.2); animation: move-aurora 25s infinite alternate ease-in-out; }
         #aurora-2 { width: 900px; height: 700px; bottom: -30%; right: -20%; background: rgba(0, 80, 150, 0.2); animation: move-aurora 30s infinite alternate ease-in-out; } 
         #aurora-3 { width: 700px; height: 550px; top: 10%; left: -15%; background: rgba(0, 39, 76, 0.2); animation: move-aurora 28s infinite alternate ease-in-out reverse; }
         @keyframes move-aurora { from { transform: rotate(0deg) translateX(50px) rotate(0deg) scale(1); } to { transform: rotate(360deg) translateX(50px) rotate(-360deg) scale(1.2); } }
         
+        /* --- CARD & INTERACTION --- */
         .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; } 
         .reveal.visible { opacity: 1; transform: translateY(0); }
         
@@ -132,101 +192,59 @@
         .holo-card {
             transform-style: preserve-3d;
             transition: transform 0.1s ease-out;
+            /* Ensure pointer events are active for the hover effect */
+            pointer-events: auto; 
+            position: relative;
+            z-index: 10;
         }
         .holo-card[data-modal-target]:hover { cursor: pointer; }
+        
         .card-clone {
             position: fixed;
-            z-index: 101;
+            z-index: 101; 
             pointer-events: none;
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* --- TEXT STYLE: Clean Outline --- */
+        /* --- CEDAR SPECIFIC --- */
         .cedar-hologram-text {
             color: transparent; 
             font-family: 'Manrope', sans-serif;
             font-weight: 800;
-            
-            /* Text Shadow creates the outline externally to avoid X-ray effect */
             text-shadow: 
                 -1px -1px 0 #FFCB0A, 
                  1px -1px 0 #FFCB0A, 
                 -1px  1px 0 #FFCB0A, 
                  1px  1px 0 #FFCB0A,
             0 0 4px #FFCB0A, 0 0 8px #FFCB0A;
-            
             filter: drop-shadow(0 0 10px rgba(255, 203, 10, 0.0));
-            
             letter-spacing: 0.1em;
             pointer-events: none;
             text-align: center;
         }
 
-        /* --- CAR STYLE --- */
         .fleet-car-dark {
             filter: grayscale(100%) contrast(125%) brightness(50%)  drop-shadow(0 25px 25px rgba(0,0,0,0.9));
             position: relative;
             z-index: 20; 
         }
 
-        /* --- REFLECTION STYLE: VISIBLE & CORRECT ANGLE --- */
-        .fleet-reflection-final {
-            /* 1. ScaleY(-1): Flips vertical (Mirror)
-               2. SkewX(-25deg): Projects projection to the right (Isometric floor)
-            
-            transform: skewy(180deg);*/
-            transform-origin: bottom center;
-            
-            opacity: 0.7; /* Strong Visibility */
-            
-            filter: grayscale(100%) contrast(125%) brightness(40%) blur(2px);
-            
-            /* Mask to fade nicely */
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
-            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
-            
-            pointer-events: none;
-            position: absolute;
-            left: 0;
-            width: 100%;
-            z-index: 30; 
-            
-            /* CRITICAL: Overlap car's transparent space. 
-               This pulls the reflection up so it touches the wheels. */
-            top: 55%; 
-        }
-
-        /* --- BUTTON PULSE ANIMATION --- */
         @keyframes button-glow-pulse {
-            0% {
-                box-shadow: 0 0 10px rgba(0, 191, 255, 0.4);
-                transform: scale(1);
-            }
-            50% {
-                /* Stronger, wider glow */
-                box-shadow: 0 0 35px rgba(0, 191, 255, 0.9);
-                transform: scale(1.05);
-            }
-            100% {
-                box-shadow: 0 0 10px rgba(0, 191, 255, 0.4);
-                transform: scale(1);
-            }
+            0% { box-shadow: 0 0 10px rgba(0, 191, 255, 0.4); transform: scale(1); }
+            50% { box-shadow: 0 0 35px rgba(0, 191, 255, 0.9); transform: scale(1.05); }
+            100% { box-shadow: 0 0 10px rgba(0, 191, 255, 0.4); transform: scale(1); }
         }
-        .pulse-strong {
-            animation: button-glow-pulse 4s infinite ease-in-out;
-        }
+        .pulse-strong { animation: button-glow-pulse 4s infinite ease-in-out; }
 
-        /* Pulse for Background Blob */
         @keyframes pulse-glow {
             0%, 100% { opacity: 0.15; transform: scale(1); }
             50% { opacity: 0.3; transform: scale(1.1); }
         }
-        .animate-pulse-slow {
-            animation: pulse-glow 6s infinite ease-in-out;
-        }
+        .animate-pulse-slow { animation: pulse-glow 6s infinite ease-in-out; }
 
+        /* --- SCROLL INDICATOR --- */
         #scroll-indicator { 
-            position: absolute; bottom: 6rem;
+            position: absolute; bottom: 2rem;
             z-index: 5; 
             transition: opacity 0.5s;
         }
@@ -234,9 +252,29 @@
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
         .animate-bounce-slow { animation: bounce 2s infinite; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); z-index: 100; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; } .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content { width: 90%; max-width: 900px; max-height: 80vh; overflow-y: auto; transform: scale(0.95); opacity: 0; transition: all 0.4s 0.2s cubic-bezier(0.23, 1, 0.32, 1); } .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
-        .close-button { position: absolute; top: 1rem; right: 1.5rem; font-size: 2.5rem; font-weight: bold; color: white; cursor: pointer; transition: transform 0.2s; z-index: 10; } .close-button:hover { transform: scale(1.1); }
+        /* --- MODAL SYSTEM --- */
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            background-color: rgba(0, 0, 0, 0.85); 
+            z-index: 100;
+            display: none; align-items: center; justify-content: center; 
+            opacity: 0; transition: opacity 0.4s ease; 
+        } 
+        .modal-overlay.active { display: flex; opacity: 1; }
+        
+        .modal-content { 
+            width: 90%; max-width: 900px; max-height: 80vh; overflow-y: auto; 
+            transform: scale(0.95); opacity: 0; 
+            transition: all 0.4s 0.2s cubic-bezier(0.23, 1, 0.32, 1); 
+        } 
+        .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
+        
+        .close-button { 
+            position: absolute; top: 1rem; right: 1.5rem; 
+            font-size: 2.5rem; font-weight: bold; color: white; 
+            cursor: pointer; transition: transform 0.2s; z-index: 10; 
+        } 
+        .close-button:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
@@ -248,15 +286,34 @@
     </div>
 
     <header id="navbar" class="fixed left-0 right-0 z-50">
-        <div id="nav-content" class="glass-panel glass-panel-light rounded-full p-2">
+        <div id="nav-content" class="glass-panel glass-panel-light rounded-full p-2 flex justify-between items-center md:block">
+            
+            <div class="md:hidden flex items-center justify-between w-full pl-3 pr-1">
+                <a href="index.html" class="font-extrabold text-white text-xl tracking-wide">
+                    Supermileage
+                </a>
+                
+                <button id="mobile-menu-btn" class="text-white p-2 focus:outline-none" aria-label="Toggle Menu">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+            
             <div id="nav-slider"></div>
-            <nav id="nav-links" class="flex justify-around items-center text-gray-200 font-semibold">
-                <a href="index.html" class="px-5 py-2 z-10 transition-colors">Home</a>
-                <a href="about.html" class="px-5 py-2 z-10 transition-colors">About</a>
-                <a href="team.html" class="px-5 py-2 z-10 transition-colors">Team</a>
-                <a href="sponsors.html" class="px-5 py-2 z-10 transition-colors">Sponsors</a>
-                <a href="history.html" class="px-5 py-2 z-10 transition-colors">History</a>
+            <nav id="nav-links" class="hidden md:flex justify-around items-center text-gray-200 font-semibold">
+                <a href="index.html" class="px-5 py-2 transition-colors">Home</a>
+                <a href="about.html" class="px-5 py-2 transition-colors">About</a>
+                <a href="team.html" class="px-5 py-2 transition-colors">Team</a>
+                <a href="sponsors.html" class="px-5 py-2 transition-colors">Sponsors</a>
+                <a href="history.html" class="px-5 py-2 transition-colors">History</a>
             </nav>
+        </div>
+
+        <div id="mobile-menu" class="hidden absolute top-16 left-4 right-4 glass-panel rounded-3xl p-4 flex-col space-y-4 text-center z-50 shadow-2xl">
+            <a href="index.html" class="block text-white font-semibold py-3 hover:text-michigan-maize hover:bg-white/5 rounded-xl transition-colors">Home</a>
+            <a href="about.html" class="block text-white font-semibold py-3 hover:text-michigan-maize hover:bg-white/5 rounded-xl transition-colors">About</a>
+            <a href="team.html" class="block text-white font-semibold py-3 hover:text-michigan-maize hover:bg-white/5 rounded-xl transition-colors">Team</a>
+            <a href="sponsors.html" class="block text-white font-semibold py-3 hover:text-michigan-maize hover:bg-white/5 rounded-xl transition-colors">Sponsors</a>
+            <a href="history.html" class="block text-white font-semibold py-3 hover:text-michigan-maize hover:bg-white/5 rounded-xl transition-colors">History</a>
         </div>
     </header>
 
@@ -299,46 +356,40 @@
             </div>
         </section>
         
-        <section id="fleet" class="py-24 sm:py-32 overflow-visible">
-            <div class="container mx-auto px-6 text-center">
+        <section id="fleet" class="py-12 sm:py-32 overflow-hidden">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
                 
                 <div class="card-container reveal w-full max-w-6xl mx-auto">
-                    <div class="holo-card glass-panel rounded-4xl h-[600px] md:h-[700px] relative flex items-center justify-center bg-grid-pattern bg-[length:40px_40px] overflow-hidden" data-modal-target="#modal-cedar">
+                    <div class="holo-card glass-panel rounded-4xl h-[500px] md:h-[700px] relative flex items-center justify-center bg-grid-pattern bg-[length:40px_40px] overflow-hidden" data-modal-target="#modal-cedar">
                         
-                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-michigan-maize/20 rounded-full blur-[120px] pointer-events-none animate-pulse-slow" style="transform: translateZ(-20px);"></div>
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-michigan-maize/20 rounded-full blur-[80px] md:blur-[120px] pointer-events-none animate-pulse-slow" style="transform: translateZ(-20px);"></div>
 
                         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl z-0" style="transform-style: preserve-3d;">
-                            
-                            <img src="Layer 2.png" alt="Cedar Vehicle" class="w-full h-auto object-contain fleet-car-dark block mx-auto relative z-20">
-                            
-                            
+                            <img src="Layer 2.png" alt="Cedar Vehicle" class="w-[90%] md:w-full h-auto object-contain fleet-car-dark block mx-auto relative z-20">
                         </div>
 
                         <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-30" style="transform: translateZ(50px);">
-                            <div class="w-[80%]">
-                                <h2 class="text-[6rem] md:text-[10rem] cedar-hologram-text leading-none">CEDAR</h2>
+                            <div class="w-full">
+                                <h2 class="text-5xl sm:text-[6rem] md:text-[10rem] cedar-hologram-text leading-none">CEDAR</h2>
                             </div>
                         </div>
 
                         <div class="absolute inset-0 pointer-events-none z-40">
-                            <div class="absolute top-12 left-8 md:left-12 bg-black/60 backdrop-blur-md border-l-4 border-michigan-maize p-4 rounded-r-xl text-left style="transform: translateZ(80px);">
-                                <p class="text-gray-400 text-xs uppercase tracking-widest">Class</p>
-                                <p class="text-white font-bold text-xl">Urban Concept</p>
+                            <div class="absolute top-8 left-4 md:top-12 md:left-12 bg-black/60 backdrop-blur-md border-l-4 border-michigan-maize p-2 md:p-4 rounded-r-xl text-left" style="transform: translateZ(80px);">
+                                <p class="text-gray-400 text-[10px] md:text-xs uppercase tracking-widest">Class</p>
+                                <p class="text-white font-bold text-sm md:text-xl">Urban Concept</p>
                             </div>
-
-                            <div class="absolute bottom-12 left-8 md:left-12 bg-black/60 backdrop-blur-md border-l-4 border-electric-blue p-4 rounded-r-xl text-left" style="transform: translateZ(80px);">
-                                <p class="text-gray-400 text-xs uppercase tracking-widest">Power</p>
-                                <p class="text-white font-bold text-xl">Battery Electric</p>
+                            <div class="absolute bottom-8 left-4 md:bottom-12 md:left-12 bg-black/60 backdrop-blur-md border-l-4 border-electric-blue p-2 md:p-4 rounded-r-xl text-left" style="transform: translateZ(80px);">
+                                <p class="text-gray-400 text-[10px] md:text-xs uppercase tracking-widest">Power</p>
+                                <p class="text-white font-bold text-sm md:text-xl">Battery Electric</p>
                             </div>
-
-                            <div class="absolute top-12 right-8 md:right-12 bg-black/60 backdrop-blur-md border-r-4 border-michigan-maize p-4 rounded-l-xl text-right" style="transform: translateZ(80px);">
-                                <p class="text-gray-400 text-xs uppercase tracking-widest">Chassis</p>
-                                <p class="text-white font-bold text-xl">Carbon Monocoque</p>
+                            <div class="absolute top-8 right-4 md:top-12 md:right-12 bg-black/60 backdrop-blur-md border-r-4 border-michigan-maize p-2 md:p-4 rounded-l-xl text-right" style="transform: translateZ(80px);">
+                                <p class="text-gray-400 text-[10px] md:text-xs uppercase tracking-widest">Chassis</p>
+                                <p class="text-white font-bold text-sm md:text-xl">Carbon Mono</p>
                             </div>
-
-                            <div class="absolute bottom-12 right-8 md:right-12" style="transform: translateZ(100px);">
-                                <div class="bg-electric-blue text-dark-navy font-bold py-3 px-8 rounded-full shadow-[0_0_20px_rgba(0,191,255,0.4)] flex items-center gap-2 pointer-events-auto cursor-pointer pulse-strong">
-                                    Explore Cedar <span class="text-xl">&rarr;</span>
+                            <div class="absolute bottom-8 right-4 md:bottom-12 md:right-12" style="transform: translateZ(100px);">
+                                <div class="bg-electric-blue text-dark-navy font-bold py-2 px-5 md:py-3 md:px-8 rounded-full shadow-[0_0_20px_rgba(0,191,255,0.4)] flex items-center gap-2 pointer-events-auto cursor-pointer pulse-strong text-sm md:text-base">
+                                    Explore <span class="text-lg md:text-xl">&rarr;</span>
                                 </div>
                             </div>
                         </div>
@@ -352,7 +403,7 @@
             <div class="container mx-auto px-6">
                 <div class="card-container reveal">
                     <div class="holo-card glass-panel rounded-4xl p-10 md:p-16 text-center">
-                        <h2 class="text-4xl md:text-5xl font-extrabold neon-white-text">Become Part of the Legacy</h2>
+                        <h2 class="text-3xl md:text-5xl font-extrabold neon-white-text">Become Part of the Legacy</h2>
                         <p class="mt-4 max-w-3xl mx-auto text-gray-300">Whether you are a student eager to apply your skills, or an organization looking to sponsor the future of automotive innovation, we have a place for you.</p>
                         <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
                             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdARPSYITxhYlFpo6ACcVey1HhnPKvXScmnk2ahgCU7BXqC_Q/viewform" target="_blank" class="bg-michigan-maize text-dark-navy font-bold py-3 px-8 rounded-lg text-lg tracking-wide hover:bg-opacity-90 transition-all duration-300">For Students</a>
@@ -363,20 +414,67 @@
             </div>
         </section>
 
-         <footer class="mt-12">
-            <div class="container mx-auto px-6 py-8"><div class="glass-panel rounded-4xl p-8 text-center text-gray-400"><p>&copy; University of Michigan Supermileage.</p><p class="mt-1 text-sm">Ann Arbor, Michigan</p></div></div>
+        <footer class="mt-12">
+            <div class="container mx-auto px-6 py-8">
+                <div class="glass-panel rounded-4xl p-8 text-center text-gray-400">
+                    <p>&copy; 2025 University of Michigan Supermileage.</p>
+                    <p class="mt-1 text-sm">Ann Arbor, Michigan</p>
+                </div>
+            </div>
         </footer>
     </main>
 
-    <div id="modal-cedar" class="modal-overlay"><div class="glass-panel modal-content rounded-4xl p-8 lg:p-12"><span class="close-button">&times;</span><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"><div><img src="Layer 2.png" alt="Cedar" class="rounded-3xl w-full h-auto bg-gray-800"></div><div><h2 class="text-4xl font-bold neon-maize-text mb-6">Cedar</h2><p class="text-lg text-gray-300">Cedar is our newest and first ever battery-electric urban concept vehicle, representing the culmination of our sustainable vehicle development. We conducted our first ever team-wide Systems Requirements Review to help us finalize our design requirements. In order to come up with our requirements we conducted research using six-sigma analysis, ran Matlab and Simulink simulations on road load, tractive forces and motor efficiencies, and built on feedback and lessons learned from  alumni, professors and industry professionals. Cedar will ultimately debut in the Shell Eco Marathon in spring 2026, followed by a world record attempt in 2027. 
-</p></div></div></div></div>
+    <div id="modal-cedar" class="modal-overlay">
+        <div class="glass-panel modal-content rounded-4xl p-8 lg:p-12">
+            <span class="close-button">&times;</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <img src="Layer 2.png" alt="Cedar" class="rounded-3xl w-full h-auto bg-gray-800">
+                </div>
+                <div>
+                    <h2 class="text-4xl font-bold neon-maize-text mb-6">Cedar</h2>
+                    <p class="text-lg text-gray-300">Cedar is our newest and first ever battery-electric urban concept vehicle, representing the culmination of our sustainable vehicle development. We conducted our first ever team-wide Systems Requirements Review to help us finalize our design requirements. In order to come up with our requirements we conducted research using six-sigma analysis, ran Matlab and Simulink simulations on road load, tractive forces and motor efficiencies, and built on feedback and lessons learned from alumni, professors and industry professionals. Cedar will ultimately debut in the Shell Eco Marathon in spring 2026, followed by a world record attempt in 2027.</p>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Logic
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if(mobileBtn && mobileMenu){
+                mobileBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    mobileMenu.classList.toggle('flex');
+                });
+            }
+
             // Navbar Slider Logic
-            const navLinksContainer = document.getElementById('nav-links');const navSlider = document.getElementById('nav-slider');const navLinks = navLinksContainer.querySelectorAll('a');navLinks.forEach(link => { link.addEventListener('mouseenter', () => { navSlider.style.width = `${link.offsetWidth}px`; navSlider.style.left = `${link.offsetLeft}px`; navSlider.style.opacity = '1'; }); });navLinksContainer.addEventListener('mouseleave', () => { navSlider.style.opacity = '0'; });
+            const navLinksContainer = document.getElementById('nav-links');
+            const navSlider = document.getElementById('nav-slider');
+            if (navLinksContainer && navSlider) {
+                const navLinks = navLinksContainer.querySelectorAll('a');
+                navLinks.forEach(link => { 
+                    link.addEventListener('mouseenter', () => { 
+                        navSlider.style.width = `${link.offsetWidth}px`; 
+                        navSlider.style.left = `${link.offsetLeft}px`; 
+                        navSlider.style.opacity = '1'; 
+                    }); 
+                });
+                navLinksContainer.addEventListener('mouseleave', () => { 
+                    navSlider.style.opacity = '0'; 
+                });
+            }
+            
             // Scroll Indicator
-            const scrollIndicator = document.getElementById('scroll-indicator');if(scrollIndicator) { window.addEventListener('scroll', () => { scrollIndicator.style.opacity = 1 - Math.min(window.scrollY / 100, 1); }); }
+            const scrollIndicator = document.getElementById('scroll-indicator');
+            if(scrollIndicator) { 
+                window.addEventListener('scroll', () => { 
+                    scrollIndicator.style.opacity = 1 - Math.min(window.scrollY / 100, 1); 
+                }); 
+            }
             
             // Neon Flicker Logic
             const heroLogo = document.getElementById('hero-logo');
@@ -409,8 +507,11 @@
                 startFlicker();
             }
 
-            // Holographic Card Logic
+            // Holographic Card Logic (Touch Check Removed for Robustness)
             const cards = document.querySelectorAll('.holo-card');
+            
+            // We apply this to ALL devices now to ensure the effect works 
+            // even on hybrid laptops or if browser devtools are open.
             cards.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
                     if (card.classList.contains('is-animating')) return;
@@ -433,53 +534,86 @@
             // Click Animation & Modal Logic
             const modals = document.querySelectorAll('.modal-overlay');
             const closeButtons = document.querySelectorAll('.close-button');
+            
             cards.forEach(card => {
                 const targetModalId = card.dataset.modalTarget;
                 if (!targetModalId) return;
+                
                 card.addEventListener('click', () => {
                     if (card.classList.contains('is-animating')) return;
+                    
                     card.classList.add('is-animating');
                     const rect = card.getBoundingClientRect();
                     const clone = card.cloneNode(true);
+                    
                     clone.classList.add('card-clone');
+                    // Remove hover/click events from clone
+                    clone.style.pointerEvents = 'none';
+                    
                     document.body.appendChild(clone);
+                    
                     clone.style.position = 'fixed';
                     clone.style.top = `${rect.top}px`;
                     clone.style.left = `${rect.left}px`;
                     clone.style.width = `${rect.width}px`;
                     clone.style.height = `${rect.height}px`;
                     clone.style.transform = card.style.transform;
+                    
                     card.style.opacity = '0';
+                    
+                    // Trigger animation
                     requestAnimationFrame(() => {
                         clone.style.top = '50%';
                         clone.style.left = '50%';
                         clone.style.transform = 'translate(-50%, -50%) rotateX(0deg) rotateY(0deg) scale(1.1)';
                     });
+                    
                     clone.addEventListener('transitionend', () => {
                         clone.style.transform = 'translate(-50%, -50%) scale(1.5)';
                         clone.style.opacity = '0';
+                        
                         const modal = document.querySelector(targetModalId);
                         openModal(modal);
+                        
                         setTimeout(() => clone.remove(), 500);
                     }, { once: true });
                 });
             });
 
-            function openModal(modal) { if (modal == null) return; modal.classList.add('active'); document.body.classList.add('modal-open'); }
+            function openModal(modal) { 
+                if (modal == null) return; 
+                modal.classList.add('active'); 
+                document.body.classList.add('modal-open'); 
+            }
+
             function closeModal(modal) {
                 if (modal == null) return;
                 modal.classList.remove('active');
                 document.body.classList.remove('modal-open');
+                
+                // Reset cards
                 cards.forEach(c => {
                     c.style.opacity = '1';
                     c.classList.remove('is-animating');
                     c.style.transform = 'rotateX(0) rotateY(0) scale3d(1, 1, 1)';
                 });
             }
-            closeButtons.forEach(button => button.addEventListener('click', () => { const modal = button.closest('.modal-overlay'); closeModal(modal); }));
-            modals.forEach(modal => modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(modal); }));
 
-            // Combined Observer
+            closeButtons.forEach(button => {
+                button.addEventListener('click', (e) => { 
+                    e.stopPropagation(); // Prevent bubbling
+                    const modal = button.closest('.modal-overlay'); 
+                    closeModal(modal); 
+                });
+            });
+
+            modals.forEach(modal => {
+                modal.addEventListener('click', (e) => { 
+                    if (e.target === modal) closeModal(modal); 
+                });
+            });
+
+            // Reveal & Counter Observer
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -493,9 +627,8 @@
                             const step = (timestamp) => {
                                 if (!start) start = timestamp;
                                 const progress = Math.min((timestamp - start) / duration, 1);
-                                const currentValue = Math.floor(progress * target)
-                                const formattedValue = currentValue.toLocaleString();
-                                counter.innerText = formattedValue;
+                                const currentValue = Math.floor(progress * target);
+                                counter.innerText = currentValue.toLocaleString();
                                 if (progress < 1) { requestAnimationFrame(step); }
                             };
                             requestAnimationFrame(step);
@@ -503,6 +636,7 @@
                     }
                 });
             }, { threshold: 0.1 });
+            
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         });
     </script>
