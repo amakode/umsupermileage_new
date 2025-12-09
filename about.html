@@ -9,36 +9,117 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+
     <script>
-        tailwind.config = { theme: { extend: { colors: { 'michigan-maize': '#FFCB0A', 'michigan-blue': '#00274C', 'dark-navy': '#000000', }, fontFamily: { 'sans': ['"Manrope"', 'sans-serif'], }, borderRadius: { '4xl': '2.5rem', }, } } }
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'michigan-maize': '#FFCB0A',
+                        'michigan-blue': '#00274C',
+                        'dark-navy': '#000000', /* Pure Black */
+                        'electric-blue': '#00BFFF', 
+                    },
+                    fontFamily: {
+                        'sans': ['"Manrope"', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        '4xl': '2.5rem',
+                    },
+                }
+            }
+        }
     </script>
+    
     <style>
-        body { background-color: #000000; color: #f0f0f0; font-family: 'Manrope', sans-serif; overflow-x: hidden; background-image: url('zoomed_out.png'); background-size: cover; background-position: center; background-attachment: fixed; background-repeat: no-repeat; }
+        /* --- CORE LAYOUT & BACKGROUND LOGIC --- */
+        body {
+            background-color: #000000;
+            color: #f0f0f0;
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+            background-image: url('zoomed_out.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* Mobile / Portrait Override */
         @media (max-width: 768px), (orientation: portrait) {
-            body { background-image: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 80%, #000000 100%), url('mobile_bg.png'); background-size: 100% auto, 100% auto; background-position: top center, top center; background-attachment: scroll; background-repeat: no-repeat; min-height: 100vh; }
+            body {
+                background-image: 
+                    linear-gradient(to bottom, 
+                        rgba(0,0,0,0) 50%,    
+                        rgba(0,0,0,0.8) 80%,  
+                        #000000 100%          
+                    ),
+                    url('mobile_bg.png');
+                background-size: 100% auto, 100% auto; 
+                background-position: top center, top center;
+                background-attachment: scroll;
+                background-repeat: no-repeat;
+                min-height: 100vh;
+            }
             #aurora-background { display: none !important; }
         }
-        #aurora-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; pointer-events: none; }
-        #main-content { position: relative; z-index: 2; background-color: transparent; }
+        
+        #aurora-background { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: 1;
+            overflow: hidden; 
+            pointer-events: none;
+        }
+
+        #main-content {
+            position: relative;
+            z-index: 2;
+            background-color: transparent;
+        }
+
+        /* --- NAVBAR --- */
         #navbar { top: 1.5rem; width: 100%; padding: 0 1rem; z-index: 50; }
         #nav-content { max-width: 700px; margin: 0 auto; position: relative; }
-        #nav-slider { position: absolute; height: 80%; top: 10%; background-color: rgba(255, 255, 255, 0.15); border-radius: 9999px; z-index: 0; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); opacity: 0; display: none; pointer-events: none; }
+        
+        #nav-slider {
+            position: absolute; height: 80%; top: 10%;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 9999px; 
+            z-index: 0;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); opacity: 0;
+            display: none; pointer-events: none;
+        }
         @media (min-width: 768px) { #nav-slider { display: block; } }
+        
         #nav-links a { position: relative; z-index: 10; }
-        .glass-panel { position: relative; background: rgba(30, 30, 30, 0.3); backdrop-filter: blur(32px); box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45); }
-        .glass-panel::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
-        .glass-panel-light { background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(32px); }
+
+        .glass-panel {
+            position: relative;
+            background: rgba(30, 30, 30, 0.3);
+            backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+        }
+        .glass-panel::before {
+            content: '';
+            position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+            background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .glass-panel-light { background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px); }
+
         .neon-maize-text { color: #FFCB0A; text-shadow: 0 0 4px #FFCB0A, 0 0 8px #FFCB0A; }
         .neon-white-text { color: #F0F0F0; text-shadow: 0 0 4px #F0F0F0, 0 0 8px #F0F0F0; }
+
         .aurora-shape { position: absolute; border-radius: 100%; filter: blur(120px); opacity: 0.5; will-change: transform; }
         #aurora-1 { width: 800px; height: 600px; top: -20%; left: -10%; background: rgba(0, 39, 76, 0.2); animation: move-aurora 25s infinite alternate ease-in-out; }
         #aurora-2 { width: 900px; height: 700px; bottom: -30%; right: -20%; background: rgba(0, 80, 150, 0.2); animation: move-aurora 30s infinite alternate ease-in-out; } 
         #aurora-3 { width: 700px; height: 550px; top: 10%; left: -15%; background: rgba(0, 39, 76, 0.2); animation: move-aurora 28s infinite alternate ease-in-out reverse; }
         @keyframes move-aurora { from { transform: rotate(0deg) translateX(50px) rotate(0deg) scale(1); } to { transform: rotate(360deg) translateX(50px) rotate(-360deg) scale(1.2); } }
         
-        /* Updated Hero Spacer for Subpages: Center Content */
         .hero-spacer { min-height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; padding-top: 0; }
-        
         #scroll-indicator { position: absolute; bottom: 2rem; z-index: 5; transition: opacity 0.5s; }
         #scroll-indicator svg { filter: drop-shadow(0 0 8px #FFCB0A); }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
@@ -56,10 +137,14 @@
         #slide-dots { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.5rem; z-index: 10; }
         .dot { width: 0.75rem; height: 0.75rem; border-radius: 50%; background-color: rgba(255, 255, 255, 0.3); cursor: pointer; transition: background-color 0.3s ease; }
         .dot.active, .dot:hover { background-color: rgba(255, 255, 255, 0.9); }
-        @media (max-width: 768px) { #slideshow-container { height: 400px; } }
+        
+        @media (max-width: 768px) {
+            #slideshow-container { height: 400px; }
+        }
     </style>
 </head>
 <body>
+
     <div id="aurora-background">
         <div id="aurora-1" class="aurora-shape"></div>
         <div id="aurora-2" class="aurora-shape"></div>
@@ -72,6 +157,7 @@
                 <a href="index.html" class="font-extrabold text-white text-xl tracking-wide">Supermileage</a>
                 <button id="mobile-menu-btn" class="text-white p-2 focus:outline-none"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
             </div>
+            
             <div id="nav-slider"></div>
             <nav id="nav-links" class="hidden md:flex justify-around items-center text-gray-200 font-semibold">
                 <a href="index.html" class="px-5 py-2 transition-colors">Home</a>
@@ -94,15 +180,21 @@
         <section class="hero-spacer">
             <h1 class="text-6xl md:text-8xl font-extrabold neon-white-text text-center px-4 break-words">About Us</h1>
             <p class="mt-4 max-w-2xl mx-auto text-gray-300 text-lg md:text-xl text-center px-4">Our passion for efficiency, innovation, and sustainable engineering.</p>
-            <div id="scroll-indicator"><svg class="w-10 h-10 text-white/70 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></div>
+            <div id="scroll-indicator">
+                <svg class="w-10 h-10 text-white/70 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </div>
         </section>
 
         <section id="gallery" class="py-24 sm:py-32">
             <div class="container mx-auto px-6 text-center">
                 <div id="slideshow-container" class="glass-panel rounded-4xl relative">
-                    <div class="slide-item active"><img src="carousel_imgs/1.jpg" alt="Carousel 1"></div>
-                    <div class="slide-item"><img src="carousel_imgs/2.jpg" alt="Carousel 2"></div>
-                    <div class="slide-item"><img src="carousel_imgs/3.jpg" alt="Carousel 3"></div>
+                    <div class="slide-item active"><img src="carousel_imgs/1.jpg" alt="Carousel Image 1"></div>
+                    <div class="slide-item"><img src="carousel_imgs/2.jpg" alt="Carousel Image 2"></div>
+                    <div class="slide-item"><img src="carousel_imgs/3.jpg" alt="Carousel Image 3"></div>
+                    <div class="slide-item"><img src="carousel_imgs/4.jpg" alt="Carousel Image 4"></div>
+                    <div class="slide-item"><img src="carousel_imgs/5.jpg" alt="Carousel Image 5"></div>
+
+                    
                     <button id="prev-slide" class="slide-button"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
                     <button id="next-slide" class="slide-button"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
                     <div id="slide-dots"></div>
@@ -112,10 +204,46 @@
 
         <section id="about-content" class="pb-24 sm:pb-32">
             <div class="container mx-auto px-6">
-                <div class="glass-panel rounded-4xl p-8 lg:p-12 text-left space-y-8">
-                    <div>
-                        <h2 class="text-3xl font-bold neon-maize-text mb-4">Our Vision</h2>
-                        <p class="text-lg text-gray-300">The University of Michigan Supermileage Project Team is an engineering organization founded on a mission to redefine sustainable transportation. We design, manufacture and race some of the most energy-efficient vehicles in the world at the Shell Eco-marathon.</p>
+                <div class="glass-panel rounded-4xl p-8 lg:p-16">
+                    <div class="space-y-20 md:space-y-32">
+
+                        <div class="flex flex-col lg:flex-row items-center gap-8 md:gap-16">
+                            <div class="lg:w-1/2 text-left">
+                                
+                                <p class="text-lg text-gray-300 leading-relaxed">
+                                    Entirely student-run, the team  operates like a start-up; all operations of the team are handled by student leaders. The team was founded in the fall of 2010, and since then has grown to include 65 active members. Our organization is composed of undergraduate students from a wide range of disciplines including Mechanical, Electrical, Aerospace, Nuclear, Chemical and Robotics Engineering as well as Environmental Science, Computer Science, Art & Design, Business, Economics and more. 
+                                </p>
+                            </div>
+                            <div class="lg:w-1/2 w-full">
+                                <img src="carousel_imgs/about_1.jpg" alt="Our Vision" class="rounded-3xl w-full h-64 md:h-80 object-cover shadow-lg border border-white/10">
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col lg:flex-row-reverse items-center gap-8 md:gap-16">
+                            <div class="lg:w-1/2 text-left">
+                                
+                                <p class="text-lg text-gray-300 leading-relaxed">
+                                    The Supermileage team is a valuable organizational and technical counterpart to the rigorous training that Michigan engineers receive in their academic studies. We operate in a system based project model, with members encouraged to explore  many different applications of engineering, from Systems Engineering to Electrical Engineering to Mechanical Engineering and countless others. As a team, we pride ourselves on doing much of our design and manufacturing in-house to help our team members refine their skills. They have the unique opportunity to work through an entire design cycle seeing their project through from conception to completion–preparing them for the expectations of working on real world engineering projects.
+
+                                </p>
+                            </div>
+                            <div class="lg:w-1/2 w-full">
+                                <img src="carousel_imgs/about_2.jpg" alt="Efficiency" class="rounded-3xl w-full h-64 md:h-80 object-cover shadow-lg border border-white/10">
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col lg:flex-row items-center gap-8 md:gap-16">
+                            <div class="lg:w-1/2 text-left">
+                                
+                                <p class="text-lg text-gray-300 leading-relaxed">
+                                    Our members are intrinsically motivated, passionate, and resourceful individuals and we hope that you find great value in supporting our organization. In order to bridge the gap between ideas and their materialization, we need your support. We gladly appreciate your time and hope you take part in this undertaking for Supermileage. Go Blue!
+                                </p>
+                            </div>
+                            <div class="lg:w-1/2 w-full">
+                                <img src="carousel_imgs/about_3.jpg" alt="World Record" class="rounded-3xl w-full h-64 md:h-80 object-cover shadow-lg border border-white/10">
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -128,10 +256,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu
             const mobileBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             if(mobileBtn) mobileBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); mobileMenu.classList.toggle('flex'); });
 
+            // Navbar Slider
             const navLinksContainer = document.getElementById('nav-links');
             const navSlider = document.getElementById('nav-slider');
             if (navLinksContainer) {
@@ -140,22 +270,31 @@
                 navLinksContainer.addEventListener('mouseleave', () => { navSlider.style.opacity = '0'; });
             }
 
+            // Scroll Indicator
             const scrollIndicator = document.getElementById('scroll-indicator');
             if(scrollIndicator) { window.addEventListener('scroll', () => { scrollIndicator.style.opacity = 1 - Math.min(window.scrollY / 100, 1); }); }
 
+            // Slideshow Logic
             const slides = document.querySelectorAll('.slide-item');
             const dotsContainer = document.getElementById('slide-dots');
             const prevButton = document.getElementById('prev-slide');
             const nextButton = document.getElementById('next-slide');
             if(slides.length > 0) {
-                let currentSlide = 0; let slideInterval;
+                let currentSlide = 0;
+                let slideInterval;
                 slides.forEach((_, i) => { const dot = document.createElement('button'); dot.classList.add('dot'); dot.dataset.slide = i; dotsContainer.appendChild(dot); });
                 const dots = document.querySelectorAll('.dot');
-                function showSlide(index) { slides.forEach((slide, i) => slide.classList.toggle('active', i === index)); dots.forEach((dot, i) => dot.classList.toggle('active', i === index)); currentSlide = index; }
+
+                function showSlide(index) {
+                    slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+                    dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+                    currentSlide = index;
+                }
                 function nextSlide() { showSlide((currentSlide + 1) % slides.length); }
                 function prevSlide() { showSlide((currentSlide - 1 + slides.length) % slides.length); }
                 function startSlideShow() { slideInterval = setInterval(nextSlide, 5000); }
                 function resetSlideShow() { clearInterval(slideInterval); startSlideShow(); }
+
                 nextButton.addEventListener('click', () => { nextSlide(); resetSlideShow(); });
                 prevButton.addEventListener('click', () => { prevSlide(); resetSlideShow(); });
                 dots.forEach(dot => dot.addEventListener('click', () => { showSlide(parseInt(dot.dataset.slide)); resetSlideShow(); }));

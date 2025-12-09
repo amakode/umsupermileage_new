@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sponsors | University of Michigan Supermileage</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,6 +12,7 @@
     <script>
         tailwind.config = { theme: { extend: { colors: { 'michigan-maize': '#FFCB0A', 'michigan-blue': '#00274C', 'dark-navy': '#000000', }, fontFamily: { 'sans': ['"Manrope"', 'sans-serif'], }, borderRadius: { '4xl': '2.5rem', }, } } }
     </script>
+    
     <style>
         body { background-color: #000000; color: #f0f0f0; font-family: 'Manrope', sans-serif; overflow-x: hidden; background-image: url('zoomed_out.png'); background-size: cover; background-position: center; background-attachment: fixed; background-repeat: no-repeat; }
         @media (max-width: 768px), (orientation: portrait) {
@@ -19,26 +21,32 @@
         }
         #aurora-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; pointer-events: none; }
         #main-content { position: relative; z-index: 2; background-color: transparent; }
+        
         #navbar { top: 1.5rem; width: 100%; padding: 0 1rem; z-index: 50; }
         #nav-content { max-width: 700px; margin: 0 auto; position: relative; }
         #nav-slider { position: absolute; height: 80%; top: 10%; background-color: rgba(255, 255, 255, 0.15); border-radius: 9999px; z-index: 0; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); opacity: 0; display: none; pointer-events: none; }
         @media (min-width: 768px) { #nav-slider { display: block; } }
         #nav-links a { position: relative; z-index: 10; }
+        
         .glass-panel { position: relative; background: rgba(30, 30, 30, 0.3); backdrop-filter: blur(32px); box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45); }
         .glass-panel::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
         .glass-panel-light { background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(32px); }
+        
         .neon-maize-text { color: #FFCB0A; text-shadow: 0 0 4px #FFCB0A, 0 0 8px #FFCB0A; }
         .neon-white-text { color: #F0F0F0; text-shadow: 0 0 4px #F0F0F0, 0 0 8px #F0F0F0; }
+        
         .aurora-shape { position: absolute; border-radius: 100%; filter: blur(120px); opacity: 0.5; will-change: transform; }
         #aurora-1 { width: 800px; height: 600px; top: -20%; left: -10%; background: rgba(0, 39, 76, 0.2); animation: move-aurora 25s infinite alternate ease-in-out; }
         #aurora-2 { width: 900px; height: 700px; bottom: -30%; right: -20%; background: rgba(0, 80, 150, 0.2); animation: move-aurora 30s infinite alternate ease-in-out; } 
         #aurora-3 { width: 700px; height: 550px; top: 10%; left: -15%; background: rgba(0, 39, 76, 0.2); animation: move-aurora 28s infinite alternate ease-in-out reverse; }
         @keyframes move-aurora { from { transform: rotate(0deg) translateX(50px) rotate(0deg) scale(1); } to { transform: rotate(360deg) translateX(50px) rotate(-360deg) scale(1.2); } }
+        
         .hero-spacer { min-height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; padding-top: 0; }
         #scroll-indicator { position: absolute; bottom: 2rem; z-index: 5; transition: opacity 0.5s; }
         #scroll-indicator svg { filter: drop-shadow(0 0 8px #FFCB0A); }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
         .animate-bounce-slow { animation: bounce 2s infinite; }
+        
         .card-container { perspective: 1000px; }
         .holo-card { transform-style: preserve-3d; transition: transform 0.1s ease-out; cursor: pointer; pointer-events: auto; position: relative; z-index: 10; }
         .waterfall-item { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
@@ -86,34 +94,39 @@
         <section id="sponsors" class="py-24 sm:py-32">
             <div class="container mx-auto px-4 sm:px-6 text-center space-y-16">
                 
-                <div class="text-left waterfall-container">
+                <div class="waterfall-container">
                     <h2 class="text-4xl md:text-5xl font-bold neon-maize-text mb-8 text-center">Platinum</h2>
-                    <div class="space-y-8">
-                        <div class="glass-panel rounded-4xl flex flex-col md:flex-row overflow-hidden waterfall-item min-h-[180px]"><div class="w-full md:w-1/3 bg-white p-8 flex items-center justify-center"><div class="card-container w-full h-full flex items-center justify-center"><img src="sponsorlogos/platinumsponsors/CoE.png" alt="Michigan CoE" class="holo-card max-h-16 w-auto object-contain"></div></div><div class="w-full md:w-2/3 p-10 flex flex-col justify-center"><h3 class="text-3xl font-bold text-white">U-M College of Engineering</h3><p class="mt-3 text-gray-300">Providing the foundation for our innovation and engineering excellence.</p></div></div>
-                        <div class="glass-panel rounded-4xl flex flex-col md:flex-row overflow-hidden waterfall-item min-h-[180px]"><div class="w-full md:w-1/3 bg-white p-8 flex items-center justify-center"><div class="card-container w-full h-full flex items-center justify-center"><img src="sponsorlogos/platinumsponsors/Whirlpool.png" alt="Whirlpool" class="holo-card max-h-16 w-auto object-contain"></div></div><div class="w-full md:w-2/3 p-10 flex flex-col justify-center"><h3 class="text-3xl font-bold text-white">Whirlpool</h3><p class="mt-3 text-gray-300">Supporting sustainable solutions and efficient design.</p></div></div>
-                        <div class="glass-panel rounded-4xl flex flex-col md:flex-row overflow-hidden waterfall-item min-h-[180px]"><div class="w-full md:w-1/3 bg-white p-8 flex items-center justify-center"><div class="card-container w-full h-full flex items-center justify-center"><img src="sponsorlogos/platinumsponsors/Siemens.png" alt="Siemens" class="holo-card max-h-16 w-auto object-contain"></div></div><div class="w-full md:w-2/3 p-10 flex flex-col justify-center"><h3 class="text-3xl font-bold text-white">Siemens</h3><p class="mt-3 text-gray-300">Empowering us with cutting-edge software and simulation tools.</p></div></div>
-                        <div class="glass-panel rounded-4xl flex flex-col md:flex-row overflow-hidden waterfall-item min-h-[180px]"><div class="w-full md:w-1/3 bg-white p-8 flex items-center justify-center"><div class="card-container w-full h-full flex items-center justify-center"><img src="sponsorlogos/platinumsponsors/airtech.png" alt="Airtech" class="holo-card max-h-16 w-auto object-contain"></div></div><div class="w-full md:w-2/3 p-10 flex flex-col justify-center"><h3 class="text-3xl font-bold text-white">Airtech</h3><p class="mt-3 text-gray-300">Supplying advanced materials for lightweight vehicle construction.</p></div></div>
-                        <div class="glass-panel rounded-4xl flex flex-col md:flex-row overflow-hidden waterfall-item min-h-[180px]"><div class="w-full md:w-1/3 bg-white p-8 flex items-center justify-center"><div class="card-container w-full h-full flex items-center justify-center"><img src="sponsorlogos/platinumsponsors/evonik_logo.png" alt="Evonik" class="holo-card max-h-16 w-auto object-contain"></div></div><div class="w-full md:w-2/3 p-10 flex flex-col justify-center"><h3 class="text-3xl font-bold text-white">Evonik</h3><p class="mt-3 text-gray-300">Leading in specialty chemicals and advanced material science.</p></div></div>
-                        <div class="glass-panel rounded-4xl flex flex-col md:flex-row overflow-hidden waterfall-item min-h-[180px]"><div class="w-full md:w-1/3 bg-white p-8 flex items-center justify-center"><div class="card-container w-full h-full flex items-center justify-center"><img src="sponsorlogos/platinumsponsors/textreme.png" alt="TeXtreme" class="holo-card max-h-16 w-auto object-contain"></div></div><div class="w-full md:w-2/3 p-10 flex flex-col justify-center"><h3 class="text-3xl font-bold text-white">TeXtreme</h3><p class="mt-3 text-gray-300">Providing ultra-lightweight carbon fiber reinforcements.</p></div></div>
+                    <div class="glass-panel rounded-4xl p-6 md:p-10">
+                        
+                        <div class="flex flex-wrap justify-center gap-3 md:gap-8 items-center">
+                            
+                            <div class="w-[48%] md:w-[45%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-32 md:h-48"><img src="sponsorlogos/platinumsponsors/CoE.png" alt="Michigan CoE" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[48%] md:w-[45%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-32 md:h-48"><img src="sponsorlogos/platinumsponsors/rousch.png" alt="Rampf" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[48%] md:w-[45%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-32 md:h-48"><img src="sponsorlogos/platinumsponsors/yg1.webp" alt="Rampf" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[48%] md:w-[45%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-32 md:h-48"><img src="sponsorlogos/platinumsponsors/RAMPF_Logo.jpg" alt="Rampf" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[48%] md:w-[45%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-32 md:h-48"><img src="sponsorlogos/platinumsponsors/airtech.png" alt="Airtech" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[48%] md:w-[45%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-32 md:h-48"><img src="sponsorlogos/platinumsponsors/evonik_logo.png" alt="Evonik" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[48%] md:w-[45%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-32 md:h-48"><img src="sponsorlogos/platinumsponsors/textreme.png" alt="TeXtreme" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[48%] md:w-[45%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-32 md:h-48"><img src="sponsorlogos/platinumsponsors/Siemens.png" alt="Siemens" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[48%] md:w-[45%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-32 md:h-48"><img src="sponsorlogos/platinumsponsors/Whirlpool.png" alt="Whirlpool" class="max-h-full max-w-full object-contain"></div></div>
+                            
+                        </div>
                     </div>
                 </div>
 
                 <div class="waterfall-container">
                     <h2 class="text-4xl md:text-5xl font-bold neon-maize-text mb-8">Gold</h2>
                     <div class="glass-panel rounded-4xl p-6 md:p-10">
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 items-center">
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/boeing.png" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/ford.jpg" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/uofmece.png" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/cse_whit.png" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/NEWT.jpg" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/Hawkeye.png" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/RAMPF_Logo.jpg" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/rousch.png" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/hakko_square.jpg" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/blue origin.png" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/airplaneplastics.jpg" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/yg1.webp" class="max-h-full max-w-full object-contain"></div></div>
+                        <div class="flex flex-wrap justify-center gap-4 md:gap-8 items-center">
+                            <div class="w-[47%] lg:w-[22%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/boeing.png" alt="Boeing" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[47%] lg:w-[22%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/ford.jpg" alt="Ford" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[47%] lg:w-[22%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/uofmece.png" alt="ECE" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[47%] lg:w-[22%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/cse_whit.png" alt="CSE" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[47%] lg:w-[22%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/NEWT.jpg" alt="New England Wire" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[47%] lg:w-[22%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/Hawkeye.png" alt="Hawkeye" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[47%] lg:w-[22%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/hakko_square.jpg" alt="Hakko" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[47%] lg:w-[22%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/blue origin.png" alt="Blue Origin" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[47%] lg:w-[22%] card-container waterfall-item"><div class="holo-card bg-white rounded-3xl p-4 flex items-center justify-center h-28 md:h-36"><img src="sponsorlogos/goldsponsors/airplaneplastics.jpg" alt="Airplane Plastics" class="max-h-full max-w-full object-contain"></div></div>
                         </div>
                     </div>
                 </div>
@@ -121,12 +134,12 @@
                 <div class="waterfall-container">
                     <h2 class="text-3xl md:text-4xl font-bold neon-maize-text mb-8">Silver</h2>
                     <div class="glass-panel rounded-4xl p-6 md:p-10">
-                        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6 items-center">
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-2xl p-4 h-24 md:h-28 flex items-center justify-center"><img src="sponsorlogos/silversponsors/mech_e.jpeg" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-2xl p-4 h-24 md:h-28 flex items-center justify-center"><img src="sponsorlogos/silversponsors/altium.svg" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-2xl p-4 h-24 md:h-28 flex items-center justify-center"><img src="sponsorlogos/silversponsors/altair.png" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-2xl p-4 h-24 md:h-28 flex items-center justify-center"><img src="sponsorlogos/silversponsors/uofmcsg.png" class="max-h-full max-w-full object-contain"></div></div>
-                            <div class="card-container waterfall-item"><div class="holo-card bg-white rounded-2xl p-4 h-24 md:h-28 flex items-center justify-center"><img src="sponsorlogos/silversponsors/dewalt.png" class="max-h-full max-w-full object-contain"></div></div>
+                        <div class="flex flex-wrap justify-center gap-4 md:gap-6 items-center">
+                            <div class="w-[47%] lg:w-[18%] card-container waterfall-item"><div class="holo-card bg-white rounded-2xl p-4 h-24 md:h-28 flex items-center justify-center"><img src="sponsorlogos/silversponsors/mech_e.jpeg" alt="MechE" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[47%] lg:w-[18%] card-container waterfall-item"><div class="holo-card bg-white rounded-2xl p-4 h-24 md:h-28 flex items-center justify-center"><img src="sponsorlogos/silversponsors/altium.svg" alt="Altium" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[47%] lg:w-[18%] card-container waterfall-item"><div class="holo-card bg-white rounded-2xl p-4 h-24 md:h-28 flex items-center justify-center"><img src="sponsorlogos/silversponsors/altair.png" alt="Altair" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[47%] lg:w-[18%] card-container waterfall-item"><div class="holo-card bg-white rounded-2xl p-4 h-24 md:h-28 flex items-center justify-center"><img src="sponsorlogos/silversponsors/uofmcsg.png" alt="CSG" class="max-h-full max-w-full object-contain"></div></div>
+                            <div class="w-[47%] lg:w-[18%] card-container waterfall-item"><div class="holo-card bg-white rounded-2xl p-4 h-24 md:h-28 flex items-center justify-center"><img src="sponsorlogos/silversponsors/dewalt.png" alt="DeWalt" class="max-h-full max-w-full object-contain"></div></div>
                         </div>
                     </div>
                 </div>
